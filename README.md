@@ -1,2 +1,9 @@
 # song2mebaby.github.io
 song2mebaby BEST
+
+#AX_알닷프로젝트추진자료0409_BY_클로드
+aldot_PRD_IA.xlsx
+aldot_project_docs_1_claude.html
+aldot_ux_review_claude.html
+aldot_wireframe_v2_1_claude.html
+aldot_workflow_screenguide_claude.html
