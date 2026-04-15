@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>알닷 개선안 와이어프레임 v2 — 완전판</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F0EEE8; --surface:#FAFAF7; --surface2:#EEECEA;
+  --border:rgba(0,0,0,0.1); --border2:rgba(0,0,0,0.18);
+  --text:#1A1A1A; --text2:#6A6860; --text3:#A8A49E;
+  --pink:#E8003D; --green:#2DBF7A; --amber:#F5A623; --blue:#3B82F6;
+  --wf:#E2E0DA; --wfb:#C8C6C0; --wft:#8A8880; --wfd:#4A4844;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── 컨트롤바 ── */
+.ctrl{background:#1A1A1A;padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;}
+.ctrl-logo{font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;}
+.ctrl-logo b{background:#C8F135;color:#1A1A1A;font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700;}
+.ctrl-tabs{display:flex;gap:3px;}
+.ct{font-size:11px;font-weight:600;padding:6px 13px;border-radius:5px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.45);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ct:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.ct.on{background:#fff;color:#1A1A1A;border-color:#fff;}
+.ctrl-right{font-size:11px;color:rgba(255,255,255,0.3);}
+
+/* ── 스테이지 ── */
+.stage{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:36px 24px 60px;gap:44px;}
+
+/* ── 폰 프레임 ── */
+.phone-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.phone-lbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+.phone{width:375px;background:var(--surface);border-radius:34px;border:2.5px solid #1A1A1A;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.18),0 4px 12px rgba(0,0,0,0.08);}
+.notch{width:110px;height:28px;background:#1A1A1A;border-radius:0 0 18px 18px;margin:0 auto;}
+
+/* ── 화면 ── */
+.scr{display:none;flex-direction:column;height:760px;overflow-y:auto;overflow-x:hidden;background:var(--surface);}
+.scr::-webkit-scrollbar{display:none;}
+.scr.on{display:flex;}
+
+/* ── 공통 헤더 ── */
+.ah{display:flex;align-items:center;justify-content:space-between;padding:13px 18px 11px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:50;flex-shrink:0;}
+.ah-logo{font-size:19px;font-weight:900;letter-spacing:-.04em;}
+.ah-title{font-size:15px;font-weight:700;}
+.ah-back{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:4px;cursor:pointer;}
+.ah-icons{display:flex;gap:10px;}
+.ib{width:30px;height:30px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ib svg{width:15px;height:15px;}
+
+/* ── 하단 탭바 ── */
+.tbar{display:flex;border-top:1px solid var(--border);background:var(--surface);padding:7px 0 18px;flex-shrink:0;position:sticky;bottom:0;}
+.ti{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:3px 0;}
+.ti-ic{width:23px;height:23px;border-radius:6px;background:var(--wf);border:1px solid var(--wfb);display:flex;align-items:center;justify-content:center;}
+.ti-ic.on{background:var(--text);}
+.ti-ic svg{width:13px;height:13px;}
+.ti-lb{font-size:9.5px;color:var(--text3);font-weight:500;}
+.ti.on .ti-lb{color:var(--text);font-weight:700;}
+
+/* ── 와이어프레임 요소들 ── */
+.wbanner{margin:12px 15px;background:var(--wf);border:1.5px dashed var(--wfb);border-radius:14px;height:124px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;position:relative;}
+.wbanner-t{font-size:13px;font-weight:700;color:var(--wfd);}
+.wbanner-s{font-size:11px;color:var(--wft);}
+.wdots{position:absolute;bottom:9px;display:flex;gap:4px;}
+.wd{width:5px;height:5px;border-radius:50%;background:var(--wfb);}
+.wd.on{background:var(--wfd);}
+
+.wsec{font-size:15px;font-weight:700;color:var(--text);padding:0 15px;margin:14px 0 8px;}
+
+.wquick{display:flex;gap:8px;padding:0 15px;margin-bottom:16px;}
+.wqi{flex:1;background:var(--wf);border:1px dashed var(--wfb);border-radius:11px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.wqi-ic{width:34px;height:34px;border-radius:9px;background:var(--surface2);border:1px solid var(--wfb);}
+.wqi-lb{font-size:10px;font-weight:600;color:var(--wfd);text-align:center;line-height:1.3;}
+
+.wrec{margin:10px 15px;background:#1A1A1A;border-radius:13px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.wrec-ey{font-size:10px;color:#C8F135;font-weight:600;margin-bottom:3px;}
+.wrec-t{font-size:13px;font-weight:700;color:#fff;}
+.wrec-btn{font-size:11px;font-weight:700;background:#C8F135;color:#1A1A1A;border-radius:7px;padding:6px 11px;white-space:nowrap;}
+
+.wcard{margin:0 15px 9px;background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:13px 15px;}
+.wcard-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.wcard-t{font-size:13px;font-weight:700;color:var(--text);}
+.wcard-more{font-size:11px;color:var(--text3);}
+
+.wbar{height:11px;background:var(--wf);border-radius:3px;margin:5px 0;}
+.wbar.s{width:55%;}  .wbar.m{width:72%;}  .wbar.f{width:100%;}
+.wbar.ac{background:rgba(26,26,26,0.13);}
+
+.wchips{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0;}
+.wchip{font-size:10px;font-weight:600;border-radius:20px;padding:4px 10px;background:var(--wf);border:1px solid var(--wfb);color:var(--wfd);}
+.wchip.on{background:var(--text);color:#fff;border-color:var(--text);}
+.wchip.grn{background:rgba(45,191,122,0.1);color:#1A6B3A;border-color:rgba(45,191,122,0.25);}
+
+/* ── 요금제 카드 ── */
+.wpc{margin:0 15px 9px;background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:13px 15px;cursor:pointer;transition:border-color .15s;}
+.wpc:hover{border-color:var(--text);}
+.wpc.feat{border-color:var(--text);}
+.wpc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;}
+.wpc-carrier{font-size:10px;color:var(--text3);font-weight:500;}
+.wpc-star{font-size:10px;color:var(--wfd);font-weight:600;}
+.wpc-data{font-size:21px;font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:2px;}
+.wpc-desc{font-size:11px;color:var(--text2);margin-bottom:8px;}
+.wpc-prow{display:flex;align-items:flex-end;gap:5px;margin-bottom:5px;}
+.wpc-price{font-size:17px;font-weight:800;color:var(--pink);letter-spacing:-.03em;}
+.wpc-per{font-size:11px;color:var(--text3);margin-bottom:1px;}
+.wpc-disc{font-size:10px;background:rgba(232,0,61,0.08);color:var(--pink);border-radius:3px;padding:2px 6px;font-weight:600;}
+.wpc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:9px;border-top:1px solid var(--border);}
+.wpc-tags{display:flex;gap:4px;}
+.wpc-tag{font-size:10px;background:var(--wf);border-radius:3px;padding:2px 6px;color:var(--wfd);border:1px solid var(--wfb);}
+.wpc-cmp{font-size:11px;font-weight:600;color:var(--text2);}
+
+.wbadges{display:flex;gap:4px;margin-bottom:7px;}
+.wbadge{font-size:10px;font-weight:700;border-radius:3px;padding:2px 6px;}
+.wbadge.only{background:rgba(45,191,122,0.1);color:#1A6B3A;}
+.wbadge.hot{background:rgba(245,166,35,0.1);color:#8A5200;}
+.wbadge.new{background:rgba(232,0,61,0.08);color:var(--pink);}
+.wbadge.esim{background:rgba(59,130,246,0.1);color:#1456A0;}
+
+.wdivider{height:8px;background:var(--bg);margin:3px 0;flex-shrink:0;}
+
+.wcta{margin:4px 15px;background:var(--text);color:#fff;border-radius:11px;padding:13px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;}
+.wcta.pk{background:var(--pink);}
+.wcta.ol{background:transparent;color:var(--text);border:1.5px solid var(--text);}
+
+/* ── 필터바 ── */
+.wfb{padding:11px 15px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:53px;z-index:40;flex-shrink:0;}
+.wftabs{display:flex;background:var(--surface2);border-radius:9px;padding:3px;margin-bottom:9px;}
+.wftab{flex:1;text-align:center;font-size:12px;font-weight:600;padding:6px 0;border-radius:7px;color:var(--text3);cursor:pointer;}
+.wftab.on{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.09);}
+.wfscroll{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:1px;}
+.wfscroll::-webkit-scrollbar{display:none;}
+
+/* ── 요금제 상세 ── */
+.wdetail-hero{padding:16px 15px 12px;}
+.wdetail-data{font-size:32px;font-weight:900;letter-spacing:-.04em;color:var(--text);margin-bottom:3px;}
+.wdetail-carrier{font-size:12px;color:var(--text2);margin-bottom:8px;}
+.wdetail-prow{display:flex;align-items:flex-end;gap:6px;margin-bottom:5px;}
+.wdetail-price{font-size:26px;font-weight:900;color:var(--pink);letter-spacing:-.03em;}
+.wdetail-per{font-size:12px;color:var(--text3);margin-bottom:3px;}
+.wdetail-orig{font-size:12px;color:var(--text3);text-decoration:line-through;}
+.wdetail-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin:0 15px;flex-shrink:0;}
+.wdtab{font-size:12px;font-weight:600;padding:8px 14px;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;}
+.wdtab.on{color:var(--text);border-bottom-color:var(--text);}
+.wdetail-section{padding:14px 15px;}
+.wds-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.winfo-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.winfo-row:last-child{border:none;}
+.winfo-key{font-size:12px;color:var(--text2);}
+.winfo-val{font-size:12px;font-weight:600;color:var(--text);}
+.wbenefit-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.wbenefit-item:last-child{border:none;}
+.wbenefit-ic{width:32px;height:32px;border-radius:8px;background:var(--wf);border:1px solid var(--wfb);flex-shrink:0;}
+.wbenefit-t{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.wbenefit-s{font-size:11px;color:var(--text2);}
+.wdetail-footer{padding:12px 15px;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface);position:sticky;bottom:0;}
+
+/* ── 가입 플로우 ── */
+.flow-progress{padding:12px 15px 10px;flex-shrink:0;border-bottom:1px solid var(--border);}
+.flow-steps-bar{display:flex;align-items:center;gap:0;margin-bottom:8px;}
+.fstep-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--wfb);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--text3);flex-shrink:0;position:relative;z-index:1;}
+.fstep-dot.done{background:var(--text);border-color:var(--text);color:#fff;}
+.fstep-dot.curr{background:var(--text);border-color:var(--text);color:#fff;box-shadow:0 0 0 3px rgba(26,26,26,0.15);}
+.fstep-line{flex:1;height:2px;background:var(--wfb);}
+.fstep-line.done{background:var(--text);}
+.flow-step-labels{display:flex;justify-content:space-between;padding:0 0;}
+.fsl{font-size:9px;color:var(--text3);text-align:center;width:22px;}
+.fsl.curr{color:var(--text);font-weight:700;}
+
+.flow-body{padding:16px 15px;flex:1;}
+.flow-title{font-size:17px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px;}
+.flow-sub{font-size:12px;color:var(--text2);margin-bottom:18px;}
+.winput-group{margin-bottom:14px;}
+.winput-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.winput{height:44px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;width:100%;display:flex;align-items:center;padding:0 13px;}
+.winput span{font-size:12px;color:var(--text3);}
+.winput.filled span{color:var(--text);}
+.wradio-group{display:flex;flex-direction:column;gap:8px;}
+.wradio{padding:13px 14px;border:1.5px solid var(--border);border-radius:11px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+.wradio.on{border-color:var(--text);background:rgba(26,26,26,0.02);}
+.wradio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--wfb);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.wradio.on .wradio-dot{border-color:var(--text);background:var(--text);}
+.wradio.on .wradio-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;}
+.wradio-t{font-size:13px;font-weight:600;color:var(--text);}
+.wradio-s{font-size:11px;color:var(--text2);margin-top:2px;}
+
+.wcheck-group{display:flex;flex-direction:column;gap:7px;}
+.wcheck{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid var(--border);border-radius:9px;}
+.wcheck-box{width:18px;height:18px;border-radius:4px;border:2px solid var(--wfb);flex-shrink:0;margin-top:1px;}
+.wcheck-box.on{background:var(--text);border-color:var(--text);}
+.wcheck-t{font-size:12px;font-weight:600;color:var(--text);}
+.wcheck-s{font-size:11px;color:var(--text2);margin-top:1px;}
+.wcheck-arr{margin-left:auto;font-size:14px;color:var(--text3);flex-shrink:0;}
+
+.wsummary{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:14px;}
+.wsum-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);}
+.wsum-row:last-child{border:none;}
+.wsum-key{font-size:12px;color:var(--text2);}
+.wsum-val{font-size:12px;font-weight:600;color:var(--text);}
+.wsum-val.pk{color:var(--pink);}
+
+.flow-footer{padding:10px 15px 16px;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface);}
+.flow-nav{display:flex;gap:8px;}
+.fnav-back{flex:1;padding:13px;border-radius:10px;border:1.5px solid var(--border);text-align:center;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;}
+.fnav-next{flex:2;padding:13px;border-radius:10px;background:var(--text);text-align:center;font-size:13px;font-weight:700;color:#fff;cursor:pointer;}
+.fnav-next.pk{background:var(--pink);}
+
+/* ── 완료 화면 ── */
+.flow-done{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;flex:1;text-align:center;}
+.done-ic{width:72px;height:72px;border-radius:50%;background:rgba(45,191,122,0.12);border:2px solid rgba(45,191,122,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.done-t{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px;}
+.done-s{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:24px;}
+.done-care{background:rgba(26,26,26,0.04);border:1px solid var(--border);border-radius:12px;padding:14px;width:100%;margin-bottom:14px;text-align:left;}
+.done-care-t{font-size:12px;font-weight:700;margin-bottom:4px;}
+.done-care-s{font-size:11px;color:var(--text2);}
+
+/* ── 유심구매 ── */
+.wusim-sec{padding:13px 15px;}
+.wusim-t{font-size:16px;font-weight:700;margin-bottom:3px;}
+.wusim-s{font-size:12px;color:var(--text2);margin-bottom:13px;}
+.wuopt{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:14px;margin-bottom:9px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .15s;}
+.wuopt:hover,.wuopt.on{border-color:var(--text);}
+.wuopt-ic{width:46px;height:46px;border-radius:11px;background:var(--surface2);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.wuopt-ic svg{width:22px;height:22px;}
+.wuopt-info{flex:1;}
+.wuopt-t{font-size:13px;font-weight:700;margin-bottom:2px;}
+.wuopt-s{font-size:11px;color:var(--text2);line-height:1.5;}
+.wuopt-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.wubadge{font-size:10px;font-weight:700;border-radius:3px;padding:2px 6px;background:rgba(232,0,61,0.08);color:var(--pink);}
+.wubadge.g{background:rgba(45,191,122,0.1);color:#1A6B3A;}
+.wuarr{font-size:16px;color:var(--text3);}
+
+/* ── 마이 ── */
+.wmy-profile{margin:13px 15px;background:var(--wf);border-radius:13px;padding:15px;display:flex;align-items:center;gap:11px;}
+.wavatar{width:42px;height:42px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--wfb);flex-shrink:0;}
+.wmy-name{font-size:15px;font-weight:700;}
+.wmy-tag{font-size:10px;background:var(--text);color:#fff;border-radius:3px;padding:2px 6px;margin-top:3px;display:inline-block;}
+.wcare-box{margin:0 15px 9px;background:var(--surface);border:1.5px solid var(--text);border-radius:13px;padding:13px 15px;}
+.wcare-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.wcare-t{font-size:13px;font-weight:700;}
+.wcare-more{font-size:11px;color:var(--text3);}
+.wubar-bg{height:7px;background:var(--surface2);border-radius:4px;overflow:hidden;margin-bottom:5px;}
+.wubar-fill{height:7px;border-radius:4px;background:var(--text);width:34%;}
+.wulbls{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
+.wsc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 15px;margin-bottom:9px;}
+.wsc{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.wsc-ic{width:42px;height:42px;border-radius:11px;background:var(--wf);border:1px solid var(--wfb);}
+.wsc-lb{font-size:10px;color:var(--wfd);font-weight:500;text-align:center;}
+.wmy-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 15px;margin-bottom:9px;}
+.wmycard{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px;}
+.wmycard-l{font-size:11px;color:var(--text3);margin-bottom:3px;}
+.wmycard-v{font-size:17px;font-weight:700;}
+.wmenu-list{margin:0 15px 9px;background:var(--surface);border:1px solid var(--border);border-radius:13px;}
+.wmenu-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);}
+.wmenu-row:last-child{border:none;}
+.wmenu-t{font-size:12px;color:var(--text);}
+.wmenu-r{font-size:11px;color:var(--text3);}
+
+/* ── 주석 패널 ── */
+.anno{width:272px;flex-shrink:0;padding-top:48px;}
+.anno-title{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;}
+.aitem{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:11px 13px 11px 36px;margin-bottom:7px;position:relative;}
+.anum{position:absolute;left:11px;top:11px;width:18px;height:18px;border-radius:50%;background:var(--text);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.alabel{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.adesc{font-size:11px;color:var(--text2);line-height:1.55;}
+.atag{display:inline-block;font-size:10px;border-radius:3px;padding:2px 6px;margin-top:5px;font-weight:600;}
+.t-new{background:rgba(45,191,122,0.1);color:#1A6B3A;}
+.t-fix{background:rgba(232,0,61,0.08);color:var(--pink);}
+.t-mv{background:rgba(245,166,35,0.1);color:#8A5200;}
+.t-mg{background:rgba(59,130,246,0.1);color:#1456A0;}
+
+@media(max-width:780px){
+  .stage{flex-direction:column;align-items:center;gap:28px;}
+  .anno{width:100%;max-width:375px;padding-top:0;}
+  .ct{padding:5px 9px;font-size:10px;}
+}
+</style>
+</head>
+<body>
+
+<!-- 컨트롤바 -->
+<div class="ctrl">
+  <div class="ctrl-logo">알닷 와이어프레임 <b>개선안 v2</b></div>
+  <div class="ctrl-tabs">
+    <button class="ct on"   onclick="goPage('home',this)">홈</button>
+    <button class="ct"      onclick="goPage('plan',this)">요금제</button>
+    <button class="ct"      onclick="goPage('detail',this)">요금제 상세</button>
+    <button class="ct"      onclick="goPage('flow',this)">가입 플로우</button>
+    <button class="ct"      onclick="goPage('usim',this)">유심구매</button>
+    <button class="ct"      onclick="goPage('my',this)">마이</button>
+  </div>
+  <div class="ctrl-right">375px · 6개 화면</div>
+</div>
+
+<div class="stage">
+
+  <!-- 폰 프레임 -->
+  <div class="phone-wrap">
+    <div class="phone-lbl" id="plbl">홈 — 개선안</div>
+    <div class="phone">
+      <div class="notch"></div>
+
+      <!-- ════ 홈 ════ -->
+      <div class="scr on" id="s-home">
+        <div class="ah">
+          <div class="ah-logo">알닷</div>
+          <div class="ah-icons">
+            <div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg></div>
+            <div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4"/><path d="M11 11l2.5 2.5"/></svg></div>
+            <div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h12M2 12h12"/></svg></div>
+          </div>
+        </div>
+        <div class="wbanner">
+          <div class="wbadges" style="justify-content:center;"><span class="wbadge only">알닷ONLY</span></div>
+          <div class="wbanner-t">평생 100GB+ · 월 28,800원</div>
+          <div class="wbanner-s">eSIM 개통 시 N페이 1만원 지급</div>
+          <div class="wdots"><div class="wd"></div><div class="wd on"></div><div class="wd"></div></div>
+        </div>
+        <!-- 퀵메뉴 (신규) -->
+        <div style="padding:0 15px;margin-bottom:5px;"><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:9px;">빠른 메뉴</div>
+          <div class="wquick" style="padding:0;">
+            <div class="wqi"><div class="wqi-ic"></div><div class="wqi-lb">요금제<br>찾기</div></div>
+            <div class="wqi"><div class="wqi-ic"></div><div class="wqi-lb">유심<br>구매</div></div>
+            <div class="wqi"><div class="wqi-ic"></div><div class="wqi-lb">사용량<br>확인</div></div>
+            <div class="wqi"><div class="wqi-ic"></div><div class="wqi-lb">혜택<br>보기</div></div>
+          </div>
+        </div>
+        <div class="wdivider"></div>
+        <div class="wrec"><div><div class="wrec-ey">알닷ONLY플러스</div><div class="wrec-t">추가 혜택을 더 받아보세요</div></div><div class="wrec-btn">자세히 보기</div></div>
+        <!-- 내게맞는 요금제 (이동: /plan 진입부) -->
+        <div style="padding:0 15px;margin-bottom:12px;">
+          <div class="wcard-hd"><span class="wcard-t">내게 맞는 요금제 찾기</span><span class="wcard-more">→</span></div>
+          <div style="background:var(--surface2);border:1px dashed var(--wfb);border-radius:9px;padding:13px;display:flex;align-items:center;gap:9px;">
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;">데이터·예산으로 딱 맞게</div><div style="font-size:11px;color:var(--text2);">간편 추천으로 바로 찾아보기</div></div>
+            <div onclick="goPage('plan',null)" style="background:var(--text);color:#fff;font-size:11px;font-weight:700;padding:7px 11px;border-radius:7px;white-space:nowrap;cursor:pointer;">시작하기</div>
+          </div>
+        </div>
+        <div class="wsec" style="margin-top:0;">인기 요금제</div>
+        <div class="wpc feat" onclick="goPage('detail',null)">
+          <div class="wbadges"><span class="wbadge only">알닷ONLY</span><span class="wbadge hot">인기 1위</span></div>
+          <div class="wpc-top"><span class="wpc-carrier">시티폰모바일</span><span class="wpc-star">★ 4.8</span></div>
+          <div class="wpc-data">100GB</div>
+          <div class="wpc-desc">최대 100GB · 기본제공 · LTE</div>
+          <div class="wpc-prow"><span class="wpc-price">28,800원</span><span class="wpc-per">/월</span><span class="wpc-disc">24개월 특가</span></div>
+          <div class="wpc-foot"><div class="wpc-tags"><span class="wpc-tag">기본제공</span><span class="wpc-tag">LTE</span></div><span class="wpc-cmp">+ 비교하기</span></div>
+        </div>
+        <div class="wcta pk" onclick="goPage('plan',null)">요금제 전체 보기</div>
+        <div style="height:14px;flex-shrink:0;"></div>
+        <div class="tbar">
+          <div class="ti on" onclick="goPage('home',null)"><div class="ti-ic on"><svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="1.5"><path d="M2 6l5-4 5 4v6H9V9H5v3H2V6z"/></svg></div><span class="ti-lb">홈</span></div>
+          <div class="ti" onclick="goPage('plan',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg></div><span class="ti-lb">요금제</span></div>
+          <div class="ti" onclick="goPage('usim',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="8" height="10" rx="2"/><path d="M5 5h4M5 8h2"/></svg></div><span class="ti-lb">유심구매</span></div>
+          <div class="ti"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5 5.5 5z"/></svg></div><span class="ti-lb">혜택</span></div>
+          <div class="ti" onclick="goPage('my',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5"/></svg></div><span class="ti-lb">마이</span></div>
+        </div>
+      </div>
+
+      <!-- ════ 요금제 ════ -->
+      <div class="scr" id="s-plan">
+        <div class="ah"><div class="ah-title">요금제</div><div class="ah-icons"><div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4"/><path d="M11 11l2.5 2.5"/></svg></div></div></div>
+        <div class="wrec" style="margin:11px 15px;"><div><div class="wrec-ey">딱 맞는 요금제 찾기</div><div class="wrec-t">내게 맞는 요금제 추천</div></div><div class="wrec-btn">시작하기</div></div>
+        <div class="wfb">
+          <div class="wftabs"><div class="wftab on">후불요금제</div><div class="wftab">신불요금제</div></div>
+          <div class="wfscroll">
+            <span class="wchip on">전체</span>
+            <span class="wchip grn">알닷ONLY</span>
+            <span class="wchip">5G</span>
+            <span class="wchip">대용량</span>
+            <span class="wchip">저가형</span>
+            <span class="wchip">무제한</span>
+          </div>
+        </div>
+        <div style="padding:9px 15px 5px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;"><span style="font-size:12px;color:var(--text2);">총 <b style="color:var(--text)">34</b>개</span><span style="font-size:12px;color:var(--text2);">추천순 ↕</span></div>
+        <div class="wpc feat" onclick="goPage('detail',null)">
+          <div class="wbadges"><span class="wbadge only">알닷ONLY</span><span class="wbadge hot">인기 1위</span></div>
+          <div class="wpc-top"><span class="wpc-carrier">시티폰모바일</span><span class="wpc-star">★ 4.8</span></div>
+          <div class="wpc-data">100GB</div><div class="wpc-desc">최대 100GB · 기본제공 · LTE</div>
+          <div class="wpc-prow"><span class="wpc-price">28,800원</span><span class="wpc-per">/월</span><span class="wpc-disc">24개월 특가</span></div>
+          <div class="wpc-foot"><div class="wpc-tags"><span class="wpc-tag">기본제공</span><span class="wpc-tag">LTE</span></div><span class="wpc-cmp">+ 비교하기</span></div>
+        </div>
+        <div class="wpc" onclick="goPage('detail',null)">
+          <div class="wpc-top"><span class="wpc-carrier">가이즈모바일</span><span class="wpc-star">★ 4.8</span></div>
+          <div class="wpc-data">매일 5GB</div><div class="wpc-desc">끊김없이 빠른 데이터 · LTE</div>
+          <div class="wpc-prow"><span class="wpc-price">27,000원</span><span class="wpc-per">/월</span><span class="wpc-disc">24개월 특가</span></div>
+          <div class="wpc-foot"><div class="wpc-tags"><span class="wpc-tag">기본제공</span><span class="wpc-tag">LTE</span></div><span class="wpc-cmp">+ 비교하기</span></div>
+        </div>
+        <div class="wpc" onclick="goPage('detail',null)">
+          <div class="wbadges"><span class="wbadge new">NEW</span><span class="wbadge esim">eSIM가능</span></div>
+          <div class="wpc-top"><span class="wpc-carrier">모나</span><span class="wpc-star">★ 4.7</span></div>
+          <div class="wpc-data">95GB</div><div class="wpc-desc">5G 나기본950안심3 · NFC유심</div>
+          <div class="wpc-prow"><span class="wpc-price">29,920원</span><span class="wpc-per">/월</span></div>
+          <div class="wpc-foot"><div class="wpc-tags"><span class="wpc-tag">5G</span><span class="wpc-tag">NFC</span></div><span class="wpc-cmp">+ 비교하기</span></div>
+        </div>
+        <div style="text-align:center;padding:12px 0 6px;font-size:12px;font-weight:600;color:var(--text2);flex-shrink:0;">더 불러오기 ↓</div>
+        <div style="height:8px;flex-shrink:0;"></div>
+        <div class="tbar">
+          <div class="ti" onclick="goPage('home',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l5-4 5 4v6H9V9H5v3H2V6z"/></svg></div><span class="ti-lb">홈</span></div>
+          <div class="ti on" onclick="goPage('plan',null)"><div class="ti-ic on"><svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg></div><span class="ti-lb">요금제</span></div>
+          <div class="ti" onclick="goPage('usim',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="8" height="10" rx="2"/><path d="M5 5h4M5 8h2"/></svg></div><span class="ti-lb">유심구매</span></div>
+          <div class="ti"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5 5.5 5z"/></svg></div><span class="ti-lb">혜택</span></div>
+          <div class="ti" onclick="goPage('my',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5"/></svg></div><span class="ti-lb">마이</span></div>
+        </div>
+      </div>
+
+      <!-- ════ 요금제 상세 ════ -->
+      <div class="scr" id="s-detail">
+        <div class="ah">
+          <div class="ah-back" onclick="goPage('plan',null)">‹ 목록</div>
+          <div class="ah-icons">
+            <div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l1.8 3.6L14 6.3l-3 2.9.7 4.1L8 11.2l-3.7 2 .7-4.1-3-2.9 4.2-.7z"/></svg></div>
+            <div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 7l-5 5-5-5"/></svg></div>
+          </div>
+        </div>
+        <div class="wdetail-hero">
+          <div class="wbadges"><span class="wbadge only">알닷ONLY</span><span class="wbadge hot">인기 1위</span></div>
+          <div class="wdetail-data">100GB</div>
+          <div class="wdetail-carrier">시티폰모바일 · ★ 4.8 (145명)</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">[N페이3만+유심/eSIM무료6.5만+SIM0원] 평생 통화100GB+</div>
+          <div class="wdetail-prow">
+            <span class="wdetail-price">28,800원</span><span class="wdetail-per">/월</span>
+            <span style="font-size:11px;background:rgba(232,0,61,0.08);color:var(--pink);border-radius:3px;padding:2px 6px;font-weight:600;">24개월 특가</span>
+          </div>
+          <div style="font-size:11px;color:var(--text3);">24개월 이후 44,000원</div>
+        </div>
+        <!-- 가입하기 버튼 -->
+        <div style="padding:0 15px 12px;flex-shrink:0;display:flex;gap:8px;">
+          <div class="wcta pk" style="margin:0;flex:2;" onclick="goPage('flow',null)">가입하기</div>
+          <div class="wcta ol" style="margin:0;flex:1;font-size:12px;">비교하기</div>
+        </div>
+        <div class="wdetail-tabs">
+          <div class="wdtab on">제공 혜택</div>
+          <div class="wdtab">부가서비스</div>
+          <div class="wdtab">사용자 리뷰</div>
+          <div class="wdtab">유사 요금제</div>
+        </div>
+        <!-- 기본 정보 -->
+        <div class="wdetail-section">
+          <div class="wds-title">기본 정보</div>
+          <div class="winfo-row"><span class="winfo-key">기본 데이터</span><span class="winfo-val">100GB</span></div>
+          <div class="winfo-row"><span class="winfo-key">일 속도제한</span><span class="winfo-val">5Mbps</span></div>
+          <div class="winfo-row"><span class="winfo-key">통화</span><span class="winfo-val">기본제공</span></div>
+          <div class="winfo-row"><span class="winfo-key">문자</span><span class="winfo-val">기본제공</span></div>
+          <div class="winfo-row"><span class="winfo-key">망</span><span class="winfo-val">LTE</span></div>
+        </div>
+        <div class="wdivider"></div>
+        <!-- 혜택 -->
+        <div class="wdetail-section">
+          <div class="wds-title">알닷 혜택</div>
+          <div class="wbenefit-item"><div class="wbenefit-ic"></div><div><div class="wbenefit-t">N페이 3만원</div><div class="wbenefit-s">알닷 스탬프 3칸 + 유심/eSIM무료 제공</div></div></div>
+          <div class="wbenefit-item"><div class="wbenefit-ic"></div><div><div class="wbenefit-t">알닷ONLY플러스</div><div class="wbenefit-s">추가 혜택 이용 가능</div></div></div>
+          <div class="wbenefit-item"><div class="wbenefit-ic"></div><div><div class="wbenefit-t">유심 무료 배송</div><div class="wbenefit-s">ONLY 요금제 가입 시 배송비 무료</div></div></div>
+        </div>
+        <div style="height:12px;flex-shrink:0;"></div>
+      </div>
+
+      <!-- ════ 가입 플로우 ════ -->
+      <div class="scr" id="s-flow">
+        <!-- 동적으로 렌더링 -->
+      </div>
+
+      <!-- ════ 유심구매 ════ -->
+      <div class="scr" id="s-usim">
+        <div class="ah"><div class="ah-title">유심구매</div></div>
+        <div class="wusim-sec">
+          <div class="wusim-t">어떻게 받으시겠어요?</div>
+          <div class="wusim-s">구매 방식 선택 후 바로 요금제 신청으로 연결됩니다</div>
+          <div class="wuopt on">
+            <div class="wuopt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            <div class="wuopt-info"><div class="wuopt-t">지금 배송</div><div class="wuopt-s">집으로 빠르게 · 평균 1~2일 내 도착</div></div>
+            <div class="wuopt-r"><span class="wubadge">인기</span><span class="wuarr">›</span></div>
+          </div>
+          <div class="wuopt">
+            <div class="wuopt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h18M3 15h18M12 3v18"/></svg></div>
+            <div class="wuopt-info"><div class="wuopt-t">편의점 구매</div><div class="wuopt-s">CU·GS25·세븐일레븐 근처에서 수령</div></div>
+            <div class="wuopt-r"><span class="wuarr">›</span></div>
+          </div>
+          <div class="wuopt">
+            <div class="wuopt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 8h6M9 12h4"/></svg></div>
+            <div class="wuopt-info"><div class="wuopt-t">유심원칩 구매</div><div class="wuopt-s">유심+요금제 한 번에 간편 개통</div></div>
+            <div class="wuopt-r"><span class="wuarr">›</span></div>
+          </div>
+          <div class="wuopt">
+            <div class="wuopt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+            <div class="wuopt-info"><div class="wuopt-t">eSIM 개통</div><div class="wuopt-s">실물 유심 없이 바로 · N페이 1만원 추가</div></div>
+            <div class="wuopt-r"><span class="wubadge g">NEW</span><span class="wuarr">›</span></div>
+          </div>
+        </div>
+        <div class="wdivider"></div>
+        <div style="padding:13px 15px;flex-shrink:0;">
+          <div style="font-size:13px;font-weight:700;margin-bottom:9px;">구매 전 확인사항</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="font-size:12px;color:var(--text2);padding-left:11px;position:relative;"><span style="position:absolute;left:0;color:var(--text3)">·</span>본인 명의 휴대폰 필요 (본인인증)</div>
+            <div style="font-size:12px;color:var(--text2);padding-left:11px;position:relative;"><span style="position:absolute;left:0;color:var(--text3)">·</span>개통 후 7일 이내 반품 가능</div>
+            <div style="font-size:12px;color:var(--text2);padding-left:11px;position:relative;"><span style="position:absolute;left:0;color:var(--text3)">·</span>eSIM은 지원 기기 확인 필요</div>
+          </div>
+        </div>
+        <div style="height:8px;flex-shrink:0;"></div>
+        <div class="tbar">
+          <div class="ti" onclick="goPage('home',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l5-4 5 4v6H9V9H5v3H2V6z"/></svg></div><span class="ti-lb">홈</span></div>
+          <div class="ti" onclick="goPage('plan',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg></div><span class="ti-lb">요금제</span></div>
+          <div class="ti on"><div class="ti-ic on"><svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="1.5"><rect x="3" y="2" width="8" height="10" rx="2"/><path d="M5 5h4M5 8h2"/></svg></div><span class="ti-lb">유심구매</span></div>
+          <div class="ti"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5 5.5 5z"/></svg></div><span class="ti-lb">혜택</span></div>
+          <div class="ti" onclick="goPage('my',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5"/></svg></div><span class="ti-lb">마이</span></div>
+        </div>
+      </div>
+
+      <!-- ════ 마이 ════ -->
+      <div class="scr" id="s-my">
+        <div class="ah"><div class="ah-title">마이</div><div class="ah-icons"><div class="ib"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2a5 5 0 015 5c0 2-1 4-2.5 5H5.5C4 12 3 10 3 7a5 5 0 015-5z"/><path d="M6 14h4"/></svg></div></div></div>
+        <div class="wmy-profile">
+          <div class="wavatar"></div>
+          <div><div class="wmy-name">송*현님</div><div class="wmy-tag">U+알뜰폰</div></div>
+          <div style="margin-left:auto;font-size:11px;color:var(--text3);">내 정보 수정 ›</div>
+        </div>
+        <!-- 알닷케어 통합 (개선) -->
+        <div class="wcare-box">
+          <div class="wcare-hd"><span class="wcare-t">알닷케어</span><span class="wcare-more">전체보기 ›</span></div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:7px;">010-89**-08** · U+유모바일</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:5px;">이번 달 데이터 사용량</div>
+          <div class="wubar-bg"><div class="wubar-fill"></div></div>
+          <div class="wulbls"><span>11.4GB 사용</span><span>113.6GB 남음</span></div>
+        </div>
+        <div style="padding:11px 15px 8px;font-size:12px;font-weight:600;color:var(--text);">빠른 기능</div>
+        <div class="wsc-row">
+          <div class="wsc"><div class="wsc-ic"></div><span class="wsc-lb">가입정보</span></div>
+          <div class="wsc"><div class="wsc-ic"></div><span class="wsc-lb">유심변경</span></div>
+          <div class="wsc"><div class="wsc-ic"></div><span class="wsc-lb">납부관리</span></div>
+          <div class="wsc"><div class="wsc-ic"></div><span class="wsc-lb">번호변경</span></div>
+        </div>
+        <div class="wmy-grid">
+          <div class="wmycard"><div class="wmycard-l">모바일 신청</div><div class="wmycard-v">0건</div></div>
+          <div class="wmycard"><div class="wmycard-l">인터넷/IPTV</div><div class="wmycard-v">0건</div></div>
+          <div class="wmycard"><div class="wmycard-l">보유 쿠폰</div><div class="wmycard-v">0건</div></div>
+          <div class="wmycard"><div class="wmycard-l">구매 USIM</div><div class="wmycard-v">0건</div></div>
+        </div>
+        <div class="wmenu-list">
+          <div class="wmenu-row"><span class="wmenu-t">내가 찜한 상품</span><span class="wmenu-r">0건 ›</span></div>
+          <div class="wmenu-row"><span class="wmenu-t">최근 둘러본 상품</span><span class="wmenu-r">1건 ›</span></div>
+          <div class="wmenu-row"><span class="wmenu-t">1:1 문의내역</span><span class="wmenu-r">0건 ›</span></div>
+          <div class="wmenu-row"><span class="wmenu-t">고객센터</span><span class="wmenu-r">›</span></div>
+        </div>
+        <div style="height:8px;flex-shrink:0;"></div>
+        <div class="tbar">
+          <div class="ti" onclick="goPage('home',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l5-4 5 4v6H9V9H5v3H2V6z"/></svg></div><span class="ti-lb">홈</span></div>
+          <div class="ti" onclick="goPage('plan',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="2"/><path d="M5 7h4M7 5v4"/></svg></div><span class="ti-lb">요금제</span></div>
+          <div class="ti" onclick="goPage('usim',null)"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="8" height="10" rx="2"/><path d="M5 5h4M5 8h2"/></svg></div><span class="ti-lb">유심구매</span></div>
+          <div class="ti"><div class="ti-ic"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2l1.5 3 3.5.5-2.5 2.5.5 3.5L7 10l-3 1.5.5-3.5L2 5.5 5.5 5z"/></svg></div><span class="ti-lb">혜택</span></div>
+          <div class="ti on"><div class="ti-ic on"><svg viewBox="0 0 14 14" fill="none" stroke="white" stroke-width="1.5"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5"/></svg></div><span class="ti-lb">마이</span></div>
+        </div>
+      </div>
+
+    </div><!-- phone -->
+  </div><!-- phone-wrap -->
+
+  <!-- 주석 패널 -->
+  <div class="anno">
+    <div class="anno-title" id="atitle">홈 — 개선 포인트</div>
+    <div id="alist"></div>
+  </div>
+
+</div><!-- stage -->
+
+<script>
+// ── 가입 플로우 데이터 ──
+const flowSteps = [
+  { title:'요금제 확인', sub:'선택한 요금제를 확인해주세요', step:1,
+    body:`<div class="wpc feat" style="margin:0 0 12px;">
+      <div class="wbadges"><span class="wbadge only">알닷ONLY</span></div>
+      <div class="wpc-data">100GB</div><div class="wpc-desc">시티폰모바일 · LTE</div>
+      <div class="wpc-prow"><span class="wpc-price">28,800원</span><span class="wpc-per">/월</span><span class="wpc-disc">24개월 특가</span></div>
+    </div>
+    <div style="background:rgba(45,191,122,0.06);border:1px solid rgba(45,191,122,0.2);border-radius:9px;padding:11px 13px;font-size:12px;color:#1A6B3A;font-weight:500;">알닷ONLY 혜택: N페이 3만원 + 유심무료 제공</div>` },
+  { title:'본인인증', sub:'휴대폰으로 본인을 확인합니다', step:2,
+    body:`<div class="wradio-group">
+      <div class="wradio on"><div class="wradio-dot"></div><div><div class="wradio-t">휴대폰 인증</div><div class="wradio-s">SMS로 인증번호를 받습니다</div></div></div>
+      <div class="wradio"><div class="wradio-dot"></div><div><div class="wradio-t">패스(PASS) 인증</div><div class="wradio-s">PASS 앱으로 빠르게 인증</div></div></div>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="winput-group"><div class="winput-label">이름</div><div class="winput filled"><span>홍길동</span></div></div>
+      <div class="winput-group"><div class="winput-label">생년월일</div><div class="winput filled"><span>900101</span></div></div>
+      <div class="winput-group"><div class="winput-label">휴대폰 번호</div><div class="winput"><span>번호를 입력하세요</span></div></div>
+    </div>` },
+  { title:'유심 + 번호 선택', sub:'유심 방식과 사용할 번호를 선택하세요', step:3,
+    body:`<div class="winput-group"><div class="winput-label">유심 방식</div>
+    <div class="wradio-group">
+      <div class="wradio on"><div class="wradio-dot"></div><div><div class="wradio-t">일반 유심 (배송)</div><div class="wradio-s">1~2일 내 자택 배송</div></div></div>
+      <div class="wradio"><div class="wradio-dot"></div><div><div class="wradio-t">eSIM 개통</div><div class="wradio-s">즉시 개통 · N페이 1만원 추가</div></div></div>
+    </div></div>
+    <div class="winput-group" style="margin-top:12px;"><div class="winput-label">번호 선택</div>
+    <div class="wradio-group">
+      <div class="wradio on"><div class="wradio-dot"></div><div><div class="wradio-t">번호 이동</div><div class="wradio-s">기존 번호 그대로 사용</div></div></div>
+      <div class="wradio"><div class="wradio-dot"></div><div><div class="wradio-t">신규 번호</div><div class="wradio-s">새 번호 발급</div></div></div>
+    </div></div>` },
+  { title:'배송 + 부가서비스', sub:'배송 정보와 부가서비스를 함께 설정하세요', step:4,
+    body:`<div class="winput-group"><div class="winput-label">배송지</div>
+      <div class="winput filled" style="margin-bottom:8px;"><span>서울특별시 용산구 한강대로 32</span></div>
+      <div class="winput"><span>상세 주소를 입력하세요</span></div>
+    </div>
+    <div class="winput-group" style="margin-top:12px;"><div class="winput-label">부가서비스 선택 <span style="color:var(--text3);font-weight:400;">(선택)</span></div>
+    <div class="wcheck-group">
+      <div class="wcheck"><div class="wcheck-box"></div><div><div class="wcheck-t">듀얼넘버</div><div class="wcheck-s">한 폰에 번호 2개 · 월 3,300원</div></div><span class="wcheck-arr">›</span></div>
+      <div class="wcheck"><div class="wcheck-box"></div><div><div class="wcheck-t">로밍 패키지</div><div class="wcheck-s">해외 데이터 자동 연결</div></div><span class="wcheck-arr">›</span></div>
+    </div></div>` },
+  { title:'약관 + 결제', sub:'이용 약관 동의 및 결제 정보를 입력하세요', step:5,
+    body:`<div class="wcheck-group" style="margin-bottom:14px;">
+      <div class="wcheck"><div class="wcheck-box on"></div><div><div class="wcheck-t">전체 약관 동의</div></div></div>
+      <div class="wcheck"><div class="wcheck-box on"></div><div><div class="wcheck-t">서비스 이용약관 (필수)</div></div><span class="wcheck-arr">›</span></div>
+      <div class="wcheck"><div class="wcheck-box on"></div><div><div class="wcheck-t">개인정보 처리방침 (필수)</div></div><span class="wcheck-arr">›</span></div>
+      <div class="wcheck"><div class="wcheck-box"></div><div><div class="wcheck-t">마케팅 정보 수신 (선택)</div></div></div>
+    </div>
+    <div class="winput-group"><div class="winput-label">자동이체 계좌</div>
+      <div class="winput filled"><span>신한은행 110-XXX-XXXXXX</span></div>
+    </div>
+    <div class="winput-group"><div class="winput-label">출금일</div>
+      <div class="winput filled"><span>매월 15일</span></div>
+    </div>` },
+  { title:'최종 확인', sub:'입력 내용을 확인하고 신청을 완료해주세요', step:6,
+    body:`<div class="wsummary">
+      <div class="wsum-row"><span class="wsum-key">요금제</span><span class="wsum-val">100GB (시티폰모바일)</span></div>
+      <div class="wsum-row"><span class="wsum-key">유심 방식</span><span class="wsum-val">일반 유심 배송</span></div>
+      <div class="wsum-row"><span class="wsum-key">번호</span><span class="wsum-val">번호 이동</span></div>
+      <div class="wsum-row"><span class="wsum-key">배송지</span><span class="wsum-val">서울 용산구</span></div>
+      <div class="wsum-row"><span class="wsum-key">결제</span><span class="wsum-val">신한은행 자동이체</span></div>
+      <div class="wsum-row"><span class="wsum-key">월 납부액</span><span class="wsum-val pk">28,800원</span></div>
+    </div>
+    <div style="margin-top:12px;background:rgba(45,191,122,0.06);border:1px solid rgba(45,191,122,0.2);border-radius:9px;padding:11px 13px;">
+      <div style="font-size:12px;font-weight:700;color:#1A6B3A;margin-bottom:3px;">알닷ONLY 혜택 적용</div>
+      <div style="font-size:11px;color:#2A7A4A;">N페이 3만원 + 유심 무료 배송</div>
+    </div>` },
+  { title:'완료', sub:'', step:7, done:true,
+    body:'' }
+];
+
+let flowStep = 0;
+
+function renderFlow(stepIdx) {
+  const s = flowSteps[stepIdx];
+  const container = document.getElementById('s-flow');
+  const total = flowSteps.length - 1; // 완료 제외
+  const curr = Math.min(stepIdx, total - 1);
+
+  if (s.done) {
+    container.innerHTML = `
+      <div class="ah"><div class="ah-title">가입 완료</div></div>
+      <div class="flow-done">
+        <div class="done-ic"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 16l7 7 13-13" stroke="#2DBF7A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="done-t">신청이 완료됐어요!</div>
+        <div class="done-s">유심이 1~2일 내로 배송됩니다.<br>배송 현황은 마이페이지에서 확인하세요.</div>
+        <div class="done-care" style="width:100%;">
+          <div class="done-care-t">알닷케어에서 사용량을 확인하세요</div>
+          <div class="done-care-s">개통 후 실시간 데이터 사용량, 납부 내역, 부가서비스를 마이 탭에서 바로 확인할 수 있어요.</div>
+        </div>
+        <div class="wcta" style="width:100%;margin:0;" onclick="goPage('my',null)">마이페이지로 이동</div>
+        <div class="wcta ol" style="width:100%;margin:8px 0 0;" onclick="goPage('home',null)">홈으로</div>
+      </div>`;
+    return;
+  }
+
+  // 진행바
+  let dotsHtml = '';
+  for (let i = 0; i < total; i++) {
+    dotsHtml += `<div class="fstep-dot ${i < curr ? 'done' : i === curr ? 'curr' : ''}">${i+1}</div>`;
+    if (i < total - 1) dotsHtml += `<div class="fstep-line ${i < curr ? 'done' : ''}"></div>`;
+  }
+
+  const isFirst = stepIdx === 0;
+  const isLast  = stepIdx === total - 1;
+
+  container.innerHTML = `
+    <div class="ah">
+      <div class="ah-back" onclick="flowNav(-1)">‹ 이전</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text2);">${curr+1} / ${total}</div>
+    </div>
+    <div class="flow-progress">
+      <div class="flow-steps-bar">${dotsHtml}</div>
+    </div>
+    <div class="flow-body">
+      <div class="flow-title">${s.title}</div>
+      <div class="flow-sub">${s.sub}</div>
+      ${s.body}
+    </div>
+    <div class="flow-footer">
+      <div class="flow-nav">
+        ${isFirst ? `<div class="fnav-back" onclick="goPage('detail',null)">← 상세로</div>` : `<div class="fnav-back" onclick="flowNav(-1)">이전</div>`}
+        <div class="fnav-next ${isLast ? 'pk' : ''}" onclick="flowNav(1)">${isLast ? '신청 완료' : '다음'}</div>
+      </div>
+    </div>`;
+}
+
+function flowNav(dir) {
+  flowStep = Math.max(0, Math.min(flowSteps.length - 1, flowStep + dir));
+  renderFlow(flowStep);
+  document.getElementById('s-flow').scrollTop = 0;
+}
+
+// ── 주석 데이터 ──
+const annos = {
+  home: { title:'홈 — 개선 포인트', items:[
+    {n:1,l:'배너 1개 집중',d:'다중 캐러셀 → 핵심 1개. 시선 분산 방지.',tag:'t-fix',tl:'개선'},
+    {n:2,l:'퀵메뉴 쇼트컷 신규',d:'요금제찾기·유심구매·사용량·혜택 홈 즉시 진입. 현행 없는 기능.',tag:'t-new',tl:'신규'},
+    {n:3,l:'내게맞는 요금제 홈 진입',d:'/mypage에 있던 추천 찾기를 홈에도 노출. 경로 단축.',tag:'t-mv',tl:'이동'},
+    {n:4,l:'하단탭 5개 재구성',d:'유심구매 격상, 이벤트→혜택 통합, 알닷케어→마이.',tag:'t-fix',tl:'개선'},
+  ]},
+  plan: { title:'요금제 — 개선 포인트', items:[
+    {n:1,l:'추천 배너 최상단',d:'/mypage/recommand → 요금제 탭 진입부로 이동. 발견성 대폭 향상.',tag:'t-mv',tl:'이동'},
+    {n:2,l:'필터 단순화',d:'통신사 다중 체크박스 → 단일 칩 선택으로 압축. 인지 부하 감소.',tag:'t-fix',tl:'개선'},
+    {n:3,l:'요금제 카드 클릭 → 상세',d:'카드 클릭 시 요금제 상세 → 가입 플로우로 자연스럽게 연결.',tag:'t-new',tl:'신규'},
+  ]},
+  detail: { title:'요금제 상세 — 개선 포인트', items:[
+    {n:1,l:'가입하기 버튼 상단 고정',d:'스크롤 없이 바로 가입 진입. 전환 마찰 최소화.',tag:'t-fix',tl:'개선'},
+    {n:2,l:'탭 구조로 정보 분리',d:'혜택·부가서비스·리뷰·유사요금제 탭 분리. 카드 정보 과밀 해소.',tag:'t-fix',tl:'개선'},
+    {n:3,l:'비교하기 인라인 노출',d:'별도 페이지 이동 없이 상세에서 바로 비교 진입.',tag:'t-new',tl:'신규'},
+  ]},
+  flow: { title:'가입 플로우 — 개선 포인트', items:[
+    {n:1,l:'13단계 → 7단계 압축',d:'관련 입력 묶기(유심+번호, 배송+부가, 약관+결제) + 중복 확인 통합.',tag:'t-fix',tl:'개선'},
+    {n:2,l:'진행 상황 바 시각화',d:'현재 몇 단계인지 상단 도트 바로 명확히 표시. 이탈 방지.',tag:'t-new',tl:'신규'},
+    {n:3,l:'최종 확인 1개로 통합',d:'현행 5개 확인 화면 → 요약 카드 1개로 통합.',tag:'t-fix',tl:'개선'},
+    {n:4,l:'완료 후 케어 온보딩 연결',d:'가입 완료 → 알닷케어(마이) 바로 진입 유도. 이탈 방지.',tag:'t-new',tl:'신규'},
+  ]},
+  usim: { title:'유심구매 — 개선 포인트', items:[
+    {n:1,l:'하단탭 격상',d:'햄버거 전용 → 탭바 3번째 자리. 핵심 전환 가시화.',tag:'t-new',tl:'격상'},
+    {n:2,l:'eSIM 옵션 신설',d:'eSIM을 별도 카드로 명확히 구분. N페이 혜택 연계 노출.',tag:'t-new',tl:'신규'},
+    {n:3,l:'구매 방식 4종 카드화',d:'지금배송·편의점·원칩·eSIM을 카드로 명확히 구분. 선택 혼란 제거.',tag:'t-fix',tl:'개선'},
+  ]},
+  my: { title:'마이 — 개선 포인트', items:[
+    {n:1,l:'알닷케어 탭 통합',d:'독립 탭이던 알닷케어를 마이 서브 영역으로 통합. 탭 5개 → 5개 재구성.',tag:'t-mg',tl:'통합'},
+    {n:2,l:'사용량 바 상단 노출',d:'케어 메인의 핵심 정보를 마이 상단에서 바로 확인.',tag:'t-mv',tl:'이동'},
+    {n:3,l:'케어 쇼트컷 4개',d:'가입정보·유심변경·납부관리·번호변경 아이콘 쇼트컷으로 노출.',tag:'t-fix',tl:'개선'},
+    {n:4,l:'고객센터 마이 통합',d:'햄버거 전용 고객센터를 마이 하단 메뉴로 통합.',tag:'t-mg',tl:'통합'},
+  ]},
+};
+
+const labels = {home:'홈 — 개선안',plan:'요금제 — 개선안',detail:'요금제 상세',flow:'가입 플로우 (8단계)',usim:'유심구매 — 탭 격상',my:'마이 — 알닷케어 통합'};
+
+function renderAnno(page) {
+  const d = annos[page]; if (!d) return;
+  document.getElementById('atitle').textContent = d.title;
+  document.getElementById('alist').innerHTML = d.items.map(i=>`
+    <div class="aitem">
+      <div class="anum">${i.n}</div>
+      <div class="alabel">${i.l}</div>
+      <div class="adesc">${i.d}</div>
+      <span class="atag ${i.tag}">${i.tl}</span>
+    </div>`).join('');
+}
+
+function goPage(page, btn) {
+  document.querySelectorAll('.ct').forEach(b=>b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  else document.querySelectorAll('.ct').forEach(b=>{ if(b.textContent.trim()===({home:'홈',plan:'요금제',detail:'요금제 상세',flow:'가입 플로우',usim:'유심구매',my:'마이'}[page])) b.classList.add('on'); });
+
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  const t = document.getElementById('s-'+page);
+  if (t) { t.classList.add('on'); t.scrollTop=0; }
+
+  document.getElementById('plbl').textContent = labels[page]||page;
+
+  if (page==='flow') { flowStep=0; renderFlow(0); }
+  renderAnno(page);
+}
+
+// 초기 렌더 — URL 해시로 초기 페이지 결정
+const initPage = location.hash.replace('#','') || 'home';
+renderFlow(0);
+renderAnno(initPage);
+goPage(initPage, null);
+
+// postMessage 수신 — 부모(스크린가이드)에서 페이지 전환 요청
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.goPage) {
+    goPage(e.data.goPage, null);
+  }
+});
+</script>
+</body>
+</html>
