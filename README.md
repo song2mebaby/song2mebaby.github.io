@@ -2,9 +2,9 @@
 song2mebaby BEST
 
 #기업개선 프로젝트 0510<BR>
-<a href='song2mebaby.github.io/aldot_ux_review_claude.html'>벤치마킹리포트</a><BR><BR>
-<a href='song2mebaby.github.io/aldot_ux_review_claude.html'>자사 GUI 스타일 가이드</a><BR><BR>
-<a href='song2mebaby.github.io/aldot_ux_review_claude.html'>자사 IA분석 </a><BR><BR>
+<a href='song2mebaby.github.io/biz0510_benchmarking_report.html'>벤치마킹리포트</a><BR>
+<a href='song2mebaby.github.io/biz0510_lguplus-biz-GUI-styleguide.html'>자사 GUI 스타일 가이드</a><BR>
+<a href='song2mebaby.github.io/biz0510_lguplus-biz-IA-structure.html'>자사 IA분석 </a><BR>
 
 
 
