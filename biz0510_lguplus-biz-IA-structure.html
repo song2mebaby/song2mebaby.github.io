@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LG U+ Biz IA 구조 분석</title><style>
+:root{--p:#7935F8;--pl:#F0EAFF;--pd:#5A28CC;--bk:#181A1B;--ch:#1A1A1A;--gm:#6C757D;--gl:#F8F9FA;--bd:#E0E0E0;--wh:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f5f5f7;color:var(--bk);line-height:1.6}
+.hdr{background:var(--ch);color:#fff;padding:40px 40px 32px}
+.badge{display:inline-block;background:var(--p);color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:12px}
+.hdr h1{font-size:clamp(20px,4vw,34px);font-weight:800;line-height:1.3;margin-bottom:8px}
+.hdr .sub{font-size:14px;color:#aaa;margin-bottom:16px}
+.meta{display:flex;flex-wrap:wrap;gap:12px}
+.meta span{font-size:13px;color:#bbb}
+.meta strong{color:var(--p)}
+nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto;white-space:nowrap;padding:0 32px}
+nav a{display:inline-block;padding:14px 14px;font-size:13px;font-weight:500;color:var(--gm);text-decoration:none;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.on{color:var(--p);border-bottom-color:var(--p)}
+main{max-width:1200px;margin:0 auto;padding:32px 20px}
+.sec{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stit{font-size:18px;font-weight:700;margin-bottom:22px;padding-bottom:12px;border-bottom:2px solid var(--p);display:flex;align-items:center;gap:8px}
+.stit .n{background:var(--p);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+table.ov{width:100%;border-collapse:collapse}
+table.ov th,table.ov td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--bd);font-size:14px}
+table.ov th{background:var(--gl);font-weight:600;width:160px;color:var(--gm)}
+.root{font-size:16px;font-weight:800;color:var(--p);padding:8px 0}
+.l1{margin:8px 0 0 16px}
+.l1lbl{font-weight:700;font-size:14px;background:var(--pl);padding:8px 14px;border-radius:8px;display:flex;align-items:center;cursor:pointer;margin-bottom:4px;gap:6px;user-select:none}
+.l1lbl .cnt{font-size:11px;color:var(--gm);font-weight:400;margin-left:4px}
+.l1lbl .arr{margin-left:auto;transition:.2s;color:var(--p)}
+.l1lbl.op .arr{transform:rotate(90deg)}
+.l2{display:none;margin:0 0 8px 24px}
+.l2.sh{display:block}
+.l2h{font-weight:600;font-size:13px;color:var(--ch);padding:6px 10px;border-left:3px solid var(--p);background:#fafafa;border-radius:0 6px 6px 0;margin:6px 0 2px}
+.l3{margin:0 0 4px 20px;list-style:none}
+.l3 li{padding:3px 8px;font-size:12px;color:var(--gm);border-left:1px dashed var(--bd);display:flex;align-items:center;gap:6px}
+.l3 li::before{content:"─";color:var(--bd)}
+.tc{font-size:10px;background:var(--p);color:#fff;padding:1px 5px;border-radius:10px;margin-left:auto}
+.ptg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.ptc{border:1px solid var(--bd);border-radius:10px;padding:18px;transition:.2s}
+.ptc:hover{box-shadow:0 4px 16px rgba(121,53,248,.12);border-color:var(--p)}
+.ptn{font-size:11px;font-weight:700;color:var(--p);background:var(--pl);padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px}
+.ptc h4{font-size:14px;font-weight:700;margin-bottom:5px}
+.url{font-size:11px;color:var(--gm);font-family:monospace;background:var(--gl);padding:3px 8px;border-radius:4px;margin-bottom:8px;word-break:break-all}
+.role{font-size:12px;color:var(--gm);margin-bottom:8px}
+.ptc ul{padding-left:14px}
+.ptc ul li{font-size:11px;color:var(--gm);margin-bottom:2px}
+.fc{display:flex;flex-wrap:wrap;gap:16px}
+.fb{flex:1;min-width:180px}
+.fs{background:var(--p);color:#fff;padding:10px 14px;border-radius:8px;font-weight:700;font-size:13px;margin-bottom:6px}
+.fi{background:var(--gl);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;font-size:12px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.fi::before{content:"→";color:var(--p);font-weight:700}
+table.ut{width:100%;border-collapse:collapse}
+table.ut th{background:var(--p);color:#fff;padding:9px 12px;font-size:13px;text-align:left}
+table.ut td{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--bd)}
+table.ut tr:hover td{background:var(--pl)}
+.mn{background:var(--pl);border-left:4px solid var(--p);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:8px;font-size:13px}
+.mn strong{color:var(--p)}
+.il{list-style:none}
+.il li{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.il li:last-child{border-bottom:none}
+.ib{background:#FFF3CD;color:#856404;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;margin-top:2px}
+footer{text-align:center;padding:32px;color:var(--gm);font-size:12px;border-top:1px solid var(--bd);margin-top:20px}
+@media(max-width:768px){.hdr{padding:24px 16px}main{padding:16px 12px}.sec{padding:18px 14px}table.ov th{width:90px}.ptg{grid-template-columns:1fr}.fc{flex-direction:column}nav{padding:0 12px}}
+</style></head><body>
+<div class="hdr">
+  <div class="badge">IA 분석 문서 v1.0</div>
+  <h1>LG U+ 기업(Biz) 사이트<br>Information Architecture 분석</h1>
+  <p class="sub">사이트 개선 프로젝트를 위한 현행 구조 기록</p>
+  <div class="meta">
+    <span>분석 대상: <strong>lguplus.com/biz (PC) · m.lguplus.com/biz (Mobile)</strong></span>
+    <span>분석 기준일: <strong>2026-05-14</strong></span>
+  </div>
+</div>
+<nav id="nav">
+  <a href="#ov">01 사이트 개요</a>
+  <a href="#st">02 전체 구조</a>
+  <a href="#pt">03 페이지 유형</a>
+  <a href="#fl">04 연결 구조</a>
+  <a href="#ui">05 공통 UI</a>
+  <a href="#mo">06 모바일</a>
+  <a href="#is">07 이슈</a>
+</nav>
+<main>
+<section class="sec" id="ov">
+  <div class="stit"><span class="n">01</span> 사이트 개요</div>
+  <table class="ov">
+    <tbody><tr><th>사이트명</th><td>LG U+ 기업 Biz</td></tr>
+    <tr><th>URL</th><td><code>https://www.lguplus.com/biz</code></td></tr>
+    <tr><th>타겟 사용자</th><td>B2B 기업 고객 (중소기업 ~ 대기업, 공공기관)</td></tr>
+    <tr><th>주요 목적</th><td>기업용 통신/솔루션 상품 소개, 리드 확보(간편 상담 신청), 인사이트 콘텐츠 제공</td></tr>
+    <tr><th>상위 GNB 탭</th><td>개인 / <strong style="color:var(--p)">기업 ★</strong> / 소상공인</td></tr>
+  </tbody></table>
+</section>
+<section class="sec" id="st">
+  <div class="stit"><span class="n">02</span> 전체 사이트 구조 (GNB 기준)</div>
+  <div class="root">🏠 LG U+ 기업 Biz</div>
+  <div class="l1">
+    <div class="l1lbl" onclick="tog(this)">📦 상품 <span class="cnt">11개 카테고리 · 55개 이상 상품</span><span class="arr">▶</span></div>
+    <div class="l2">
+      <div class="l2h">인터넷 <span class="tc">8</span></div><ul class="l3"><li>오피스넷</li><li>비즈넷</li><li>비즈온</li><li>U+모바일인터넷</li><li>초중고인터넷</li><li>PC방넷</li><li>와이파이오피스</li><li>프리미엄와이파이</li></ul>
+      <div class="l2h">전용회선 <span class="tc">8</span></div><ul class="l3"><li>국내전용회선</li><li>양자내성암호전용회선</li><li>국제전용회선</li><li>방송전용회선</li><li>공공전용회선</li><li>대학교육망</li><li>5G전용망</li><li>MVP</li></ul>
+      <div class="l2h">전화 <span class="tc">9</span></div><ul class="l3"><li>AI비즈콜</li><li>기업 인터넷 전화</li><li>050평생번호</li><li>050FAX</li><li>050안심번호</li><li>기업전화(시내/시외)</li><li>구내통신</li><li>080서비스</li><li>전국대표번호</li></ul>
+      <div class="l2h">보안 <span class="tc">8</span></div><ul class="l3"><li>AlphaKey</li><li>U+PQC VPN</li><li>U+프리미엄보안관제</li><li>클라우드보안팩</li><li>DDoS Safer</li><li>문서중앙화</li><li>보안 아웃소싱</li><li>SD WAN</li></ul>
+      <div class="l2h">AI CCTV <span class="tc">2</span></div><ul class="l3"><li>AI CCTV</li><li>U+지능형CCTV</li></ul>
+      <div class="l2h">AI 컨택센터 <span class="tc">5</span></div><ul class="l3"><li>AICC</li><li>AICC BPO</li><li>스마트컨택</li><li>클라우드고객센터</li><li>클라우드레코딩</li></ul>
+      <div class="l2h">모빌리티 <span class="tc">5</span></div><ul class="l3"><li>U+커넥트</li><li>U+초정밀측위</li><li>C-ITS</li><li>자율주행</li><li>U+Drive</li></ul>
+      <div class="l2h">협업솔루션 <span class="tc">14</span></div><ul class="l3"><li>U+슈퍼스쿨</li><li>기업메시징</li><li>U+메시지허브</li><li>U+메시지허브이지</li><li>웹팩스</li><li>U+웍스</li><li>전자문서</li><li>얼마에요ERP</li><li>웹하드™</li><li>U+전자수발주</li><li>원격지원</li><li>무전원 디지털락</li><li>작업자 안전관리</li><li>U+스마트안전솔루션</li></ul>
+      <div class="l2h">U+tv <span class="tc">1</span></div><ul class="l3"><li>U+tv (IPTV)</li></ul>
+      <div class="l2h">기업 모바일 <span class="tc">8</span></div><ul class="l3"><li>기업전용 음성총량</li><li>기업전용 데이터총량</li><li>기업전용 로밍총량</li><li>LTE Biz요금제</li><li>LTE 비즈프리</li><li>기업한방에yo</li><li>LTE무전기</li><li>V비즈링</li></ul>
+      <div class="l2h">AI 데이터센터 <span class="tc">7</span></div><ul class="l3"><li>IDC 센터</li><li>코로케이션</li><li>클라우드 멀티커넥트</li><li>CDN</li><li>IDC호스팅</li><li>IDC보안관제</li><li>IDC 데이터 백업</li></ul>
+    </div>
+  </div>
+  <div class="l1">
+    <div class="l1lbl" onclick="tog(this)">💡 솔루션 <span class="cnt">업종별 7 + 유형별 4</span><span class="arr">▶</span></div>
+    <div class="l2">
+      <div class="l2h">업종별 <span class="tc">7</span></div><ul class="l3"><li>유통</li><li>제조</li><li>의료</li><li>플랫폼/IT</li><li>공공</li><li>금융</li><li>교육</li></ul>
+      <div class="l2h">유형별 <span class="tc">4</span></div><ul class="l3"><li>AI 데이터센터</li><li>AI 컨택센터</li><li>보안 솔루션</li><li>오피스 솔루션</li></ul>
+    </div>
+  </div>
+  <div class="l1">
+    <div class="l1lbl" onclick="tog(this)">📰 인사이트 <span class="cnt">6개 유형</span><span class="arr">▶</span></div>
+    <div class="l2"><ul class="l3"><li>블로그 (현직 마케터 리포트, 트렌드)</li><li>뉴스레터</li><li>보도자료</li><li>웨비나</li><li>고객사례</li><li>이벤트</li></ul></div>
+  </div>
+  <div class="l1">
+    <div class="l1lbl" onclick="tog(this)">🎧 고객지원 <span class="cnt">5개 영역</span><span class="arr">▶</span></div>
+    <div class="l2">
+      <div class="l2h">온라인 문의</div><ul class="l3"><li>1:1 문의</li><li>고객센터 번호 안내</li></ul>
+      <div class="l2h">서비스 이용안내</div><ul class="l3"><li>FAQ</li><li>스스로 해결 가이드</li><li>카드뉴스</li><li>장애 자가처리 가이드</li><li>기업 홈페이지 이용방법</li></ul>
+      <div class="l2h">공지 및 자료실</div><ul class="l3"><li>공지사항</li><li>신청 서류 양식</li><li>이용약관</li><li>브로슈어</li></ul>
+      <div class="l2h">사업제휴/제안하기</div>
+      <div class="l2h">서비스 포탈</div><ul class="l3"><li>비즈마켓</li><li>IoT파트너스 신청</li></ul>
+    </div>
+  </div>
+  <div class="l1">
+    <div class="l1lbl" onclick="tog(this)">👤 MY <span class="cnt">로그인 필요 · 8개 카테고리</span><span class="arr">▶</span></div>
+    <div class="l2"><ul class="l3"><li>청구요금 및 납부</li><li>가입상품 관리</li><li>법인폰/IoT(M2M) 서비스</li><li>050평생번호/FAX</li><li>기업전용 총량 상품 관리</li><li>개통/신청 현황 조회</li><li>문의내역</li><li>회원정보관리</li></ul></div>
+  </div>
+</section>
+<section class="sec" id="pt">
+  <div class="stit"><span class="n">03</span> 페이지 유형별 분류</div>
+  <div class="ptg">
+    <div class="ptc"><div class="ptn">3-1</div><h4>홈(메인)</h4><div class="url">/biz</div><div class="role">브랜드 인지, 솔루션 노출, 리드 유입 허브</div><ul><li>Hero 슬라이딩 상품 카드 + 인사이트 그리드</li><li>업종/유형별 솔루션 탐색기</li><li>고객 도입 성과 수치 섹션</li><li>인사이트 카테고리 퀵 링크</li><li>Floating 퀵메뉴 CTA</li></ul></div>
+    <div class="ptc"><div class="ptn">3-2</div><h4>상품 목록</h4><div class="url">/biz/all/telecom/{카테고리}</div><div class="role">카테고리별 상품 탐색</div><ul><li>GNB 전체메뉴 활용</li><li>상품 수 55개 이상</li></ul></div>
+    <div class="ptc"><div class="ptn">3-3</div><h4>상품 상세</h4><div class="url">/biz/all/{분류}/{상품명}/{코드}</div><div class="role">개별 상품 상세 정보 및 상담 전환</div><ul><li>좌측 앵커 메뉴 (상품개요/특장점/요금/FAQ)</li><li>Breadcrumb 네비게이션</li><li>간편 상담 신청 CTA</li></ul></div>
+    <div class="ptc"><div class="ptn">3-4</div><h4>솔루션 (업종별)</h4><div class="url">/biz/solution/industry/{업종}</div><div class="role">업종 니즈 기반 솔루션 세트 제안</div><ul><li>retail / manufacturing / healthcare</li><li>platform / public-sector / finance / education</li></ul></div>
+    <div class="ptc"><div class="ptn">3-5</div><h4>솔루션 (유형별)</h4><div class="url">/biz/solution/type/{유형}</div><div class="role">기술/기능 유형 기반 솔루션 소개</div><ul><li>aidc / aicc / security / office</li></ul></div>
+    <div class="ptc"><div class="ptn">3-6</div><h4>인사이트 목록</h4><div class="url">/biz/insight/{type}</div><div class="role">콘텐츠 마케팅 허브</div><ul><li>story / trend / success-case / news / webinar / event</li><li>카테고리 탭 + 3열 카드 그리드 + 페이지네이션</li></ul></div>
+    <div class="ptc"><div class="ptn">3-7</div><h4>인사이트 상세</h4><div class="url">/biz/insight/{type}/{id}</div><div class="role">콘텐츠 상세 및 관련 콘텐츠 연결</div><ul><li>상단 태그·등록일 + 본문</li><li>관련 콘텐츠 추천</li></ul></div>
+    <div class="ptc"><div class="ptn">3-8</div><h4>고객지원 허브</h4><div class="url">/biz/support</div><div class="role">모든 지원 채널 한 페이지 안내</div><ul><li>고객센터 번호 배너</li><li>상담신청 / 1:1문의 / FAQ 카드</li><li>셀프서비스 가이드 + 장애 지원</li></ul></div>
+    <div class="ptc"><div class="ptn">3-9</div><h4>MY 페이지</h4><div class="url">/biz/mypage</div><div class="role">요금 조회, 상품 관리, 법인폰/총량 관리</div><ul><li>로그인 필요 (U+ ID)</li></ul></div>
+  </div>
+</section>
+<section class="sec" id="fl">
+  <div class="stit"><span class="n">04</span> 페이지 간 연결 구조 (User Flow)</div>
+  <div class="fc">
+    <div class="fb"><div class="fs">🏠 메인</div><div class="fi">슬라이드 상품 → 상품 상세</div><div class="fi">인사이트 카드 → 인사이트 상세</div><div class="fi">업종 탭 → 솔루션/업종</div><div class="fi">검색 → 검색 결과</div><div class="fi">간편 상담 신청 → 상담 모달</div></div>
+    <div class="fb"><div class="fs">📄 상품 상세</div><div class="fi">간편 상담 → 상담 모달</div><div class="fi">추천 상품 → 다른 상품 상세</div><div class="fi">FAQ → 내부 앵커</div><div class="fi">이용약관/신청서 → 다운로드</div></div>
+    <div class="fb"><div class="fs">💡 솔루션/업종</div><div class="fi">상품 태그 → 상품 상세</div></div>
+    <div class="fb"><div class="fs">📰 인사이트 목록</div><div class="fi">카드 클릭 → 인사이트 상세</div></div>
+    <div class="fb"><div class="fs">🎧 고객지원</div><div class="fi">1:1문의 → 문의 폼</div><div class="fi">FAQ → FAQ 목록</div><div class="fi">자료실 → 파일 다운로드</div></div>
+  </div>
+</section>
+<section class="sec" id="ui">
+  <div class="stit"><span class="n">05</span> 글로벌 공통 UI 요소</div>
+  <table class="ut">
+    <thead><tr><th>UI 요소</th><th>위치</th><th>역할</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Top Bar</strong></td><td>최상단</td><td>개인/기업/소상공인 채널 전환 + 회사소개 링크</td></tr>
+      <tr><td><strong>GNB</strong></td><td>헤더 고정</td><td>상품/솔루션/인사이트/고객지원/MY + 전체메뉴/검색/장바구니/내정보</td></tr>
+      <tr><td><strong>간편 상담 신청</strong></td><td>GNB 우측 (보라색 CTA)</td><td>주요 전환 포인트</td></tr>
+      <tr><td><strong>Breadcrumb</strong></td><td>각 페이지 상단</td><td>기업 &gt; 전체 &gt; … 형식</td></tr>
+      <tr><td><strong>퀵메뉴 Floating</strong></td><td>우측 하단 고정</td><td>간편 상담 / 상품소개서 / 뉴스레터 구독</td></tr>
+      <tr><td><strong>전체메뉴 (Hamburger)</strong></td><td>GNB 내</td><td>상품 전체 카테고리 오버레이</td></tr>
+      <tr><td><strong>Footer</strong></td><td>최하단</td><td>법적 고지, SNS 링크, 패밀리사이트</td></tr>
+      <tr><td><strong>Footer CTA</strong></td><td>Footer 상단</td><td>상품소개서 / 뉴스레터 / 간편 상담 버튼</td></tr>
+    </tbody>
+  </table>
+</section>
+<section class="sec" id="mo">
+  <div class="stit"><span class="n">06</span> 모바일(m.lguplus.com/biz) 구조 특이사항</div>
+  <div class="mn"><strong>GNB:</strong> 하단 탭 바 또는 햄버거 메뉴로 전환</div>
+  <div class="mn"><strong>Hero 섹션:</strong> 단일 카드 슬라이드(가로 스크롤)</div>
+  <div class="mn"><strong>섹션 카드:</strong> 가로 스크롤 Carousel로 전환</div>
+  <div class="mn"><strong>퀵메뉴 Floating:</strong> 축약형으로 표시</div>
+  <div class="mn"><strong>상품 상세 앵커 메뉴:</strong> 좌측 사이드바 → 상단 수평 탭으로 전환</div>
+</section>
+<section class="sec" id="is">
+  <div class="stit"><span class="n">07</span> IA 분석 기반 현황 이슈 체크리스트</div>
+  <ul class="il">
+    <li><span class="ib">발견성</span> 상품 카테고리 깊이: GNB 전체메뉴 기준 상품 수 55개 이상 — 사용자가 원하는 상품을 발견하기 어려울 수 있음</li>
+    <li><span class="ib">개념 혼재</span> '솔루션' 메뉴와 '상품' 메뉴의 개념 경계가 사용자 관점에서 불명확</li>
+    <li><span class="ib">복잡도</span> MY 메뉴 하위 메뉴 10개 카테고리 이상 — B2B 특성상 다양하나 우선순위 정리 필요</li>
+    <li><span class="ib">일관성</span> 검색 진입점: GNB 검색 아이콘 + 메인 검색 블록 두 군데 존재 (일관성 검토 필요)</li>
+    <li><span class="ib">UX 개선</span> 인사이트 카테고리 6개 구분 — 통합 허브 UX 개선 가능</li>
+    <li><span class="ib">모바일</span> PC 기준 대분류 5개에 대한 모바일 최적화 검토 필요</li>
+  </ul>
+</section>
+<footer>LG U+ 기업(Biz) 사이트 IA 분석 · 2026-05-14 · 사이트 개선 프로젝트</footer>
+</main>
+<div id="dl-bar" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;background:#1A1A1A;border-radius:40px;padding:12px 24px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4)">
+  <span style="color:#aaa;font-size:13px;font-weight:500;">📄 IA 구조 분석</span>
+  <button id="dl-btn" style="background:#7935F8;color:#fff;border:none;padding:10px 22px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer">⬇ HTML 다운로드</button>
+</div>
+<script>
+function tog(el){el.classList.toggle('op');const n=el.nextElementSibling;if(n)n.classList.toggle('sh')}
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{let cur='';secs.forEach(s=>{if(window.scrollY>=s.offsetTop-90)cur=s.id});links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));});
+document.getElementById('dl-btn').addEventListener('click',function(){
+  const html='<!DOCTYPE html>'+document.documentElement.outerHTML;
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='lguplus-biz-IA-structure.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+});
+</script>
+</body></html>

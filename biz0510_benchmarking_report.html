@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B2B 통신사 벤치마킹 리포트 2026</title>
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13161e;
+  --surface2: #1a1e2a;
+  --border: #252a38;
+  --accent: #7935F8;
+  --accent2: #00d4ff;
+  --text: #e8eaf0;
+  --muted: #6b7280;
+  --success: #10b981;
+  --warn: #f59e0b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+
+/* Header */
+.hdr { background: linear-gradient(135deg, #0d0f14 0%, #1a0d35 50%, #0d1a2a 100%); padding: 48px 40px 36px; border-bottom: 1px solid var(--border); }
+.hdr-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(121,53,248,.15); border: 1px solid rgba(121,53,248,.3); color: #a78bfa; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: .5px; }
+.hdr h1 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
+.hdr h1 span { color: var(--accent); }
+.hdr p { color: var(--muted); font-size: 13px; }
+.hdr-meta { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+.hdr-meta span { font-size: 12px; color: var(--muted); }
+.hdr-meta strong { color: var(--accent2); }
+
+/* Nav tabs */
+.tab-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; position: sticky; top: 0; z-index: 100; overflow-x: auto; white-space: nowrap; }
+.tab-bar a { display: inline-block; padding: 14px 16px; font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; transition: .2s; letter-spacing: .3px; }
+.tab-bar a:hover, .tab-bar a.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Main */
+main { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+
+/* Section */
+.sec { margin-bottom: 40px; }
+.sec-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.sec-title .pill { background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; letter-spacing: .5px; }
+
+/* Card grid */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+
+/* Company card */
+.co-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .2s, transform .15s; cursor: pointer; }
+.co-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.co-card.active { border-color: var(--accent); }
+.co-head { padding: 18px 20px 14px; display: flex; align-items: flex-start; gap: 14px; }
+.co-logo { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0; color: #fff; }
+.co-info { flex: 1; min-width: 0; }
+.co-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.co-country { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.co-url { font-size: 11px; color: var(--accent2); font-family: monospace; background: rgba(0,212,255,.08); padding: 2px 8px; border-radius: 4px; margin-top: 5px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.co-body { padding: 0 20px 18px; }
+.co-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
+
+/* Tags */
+.tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+.tag-mwc { background: rgba(245,158,11,.15); color: #f59e0b; border: 1px solid rgba(245,158,11,.25); }
+.tag-ai { background: rgba(121,53,248,.15); color: #a78bfa; border: 1px solid rgba(121,53,248,.25); }
+.tag-5g { background: rgba(16,185,129,.15); color: #10b981; border: 1px solid rgba(16,185,129,.25); }
+.tag-iot { background: rgba(0,212,255,.15); color: #00d4ff; border: 1px solid rgba(0,212,255,.25); }
+.tag-cloud { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid rgba(59,130,246,.25); }
+.tag-kr { background: rgba(239,68,68,.12); color: #f87171; border: 1px solid rgba(239,68,68,.2); }
+
+/* Stats row */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.stat { background: var(--surface2); border-radius: 8px; padding: 8px 10px; text-align: center; }
+.stat-v { font-size: 13px; font-weight: 700; color: var(--accent2); }
+.stat-l { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+/* Design swatch */
+.design-row { background: var(--surface2); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+.design-title { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+.color-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.swatch { width: 24px; height: 24px; border-radius: 5px; border: 1px solid rgba(255,255,255,.1); flex-shrink: 0; }
+.swatch-info { font-size: 11px; color: var(--muted); font-family: monospace; }
+
+/* IA tree */
+.ia-list { list-style: none; }
+.ia-list li { padding: 3px 0; font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.ia-list li::before { content: '›'; color: var(--accent); font-weight: 700; }
+.ia-sub { margin-left: 14px; }
+.ia-sub li::before { content: '–'; color: var(--muted); }
+
+/* MWC badge */
+.mwc-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.2); border-radius: 6px; padding: 4px 8px; font-size: 11px; color: #f59e0b; margin-bottom: 8px; }
+.mwc-badge .star { color: #f59e0b; }
+
+/* Compare table */
+.compare-wrap { overflow-x: auto; }
+table.compare { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.compare th { background: var(--surface2); padding: 10px 12px; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+table.compare td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.compare tr:hover td { background: var(--surface2); }
+table.compare .flag { font-size: 16px; }
+table.compare .co { font-weight: 700; }
+table.compare .chip { display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+.chip-high { background: rgba(16,185,129,.15); color: #10b981; }
+.chip-med { background: rgba(245,158,11,.15); color: #f59e0b; }
+.chip-low { background: rgba(107,114,128,.12); color: #9ca3af; }
+.chip-mwc { background: rgba(245,158,11,.15); color: #f59e0b; }
+
+/* insight card */
+.insight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.insight-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--accent2); }
+.insight-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+footer { text-align: center; padding: 32px; color: var(--muted); font-size: 11px; border-top: 1px solid var(--border); margin-top: 20px; }
+
+@media(max-width:768px) {
+  .hdr { padding: 28px 16px 24px; }
+  main { padding: 20px 12px; }
+  .tab-bar { padding: 0 12px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(3,1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-badge">🔍 BENCHMARKING REPORT</div>
+  <h1>글로벌 B2B 통신사<br><span>홈페이지 벤치마킹</span> 2026</h1>
+  <p>LG U+ Biz 기업 홈페이지 개선 프로젝트 · 국내 3사 + 글로벌 5사 + Cisco 비교 분석</p>
+  <div class="hdr-meta">
+    <span>분석 기준일: <strong>2026-05-15</strong></span>
+    <span>대상: <strong>9개사</strong></span>
+    <span>조사 항목: <strong>IA · 디자인 · 서비스 · MWC · 마케팅</strong></span>
+  </div>
+</div>
+
+<nav class="tab-bar" id="nav">
+  <a href="#overview" class="on">01 개요</a>
+  <a href="#domestic">02 국내 3사</a>
+  <a href="#global">03 글로벌 5사</a>
+  <a href="#cisco">04 Cisco</a>
+  <a href="#compare">05 종합 비교</a>
+  <a href="#insight">06 인사이트</a>
+</nav>
+
+<main>
+
+<!-- 01 개요 -->
+<section class="sec" id="overview">
+  <div class="sec-title"><span class="pill">01</span> 분석 대상 및 조사 방법</div>
+  <div class="card-grid">
+
+    <!-- 분석 대상 요약 카드 -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;grid-column:span 2">
+      <div style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--accent2)">분석 대상 9개사</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">
+        <div style="background:var(--surface2);border-radius:8px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:6px;letter-spacing:.5px">🇰🇷 국내 이통3사</div>
+          <div style="font-size:12px">SK텔레콤 · KT · LG유플러스</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:700;color:var(--accent2);margin-bottom:6px;letter-spacing:.5px">🇺🇸 미국 통신사</div>
+          <div style="font-size:12px">Verizon Business · T-Mobile Business</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:700;color:#f59e0b;margin-bottom:6px;letter-spacing:.5px">🇪🇺 유럽 통신사</div>
+          <div style="font-size:12px">Deutsche Telekom · Vodafone Business</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:10px 14px">
+          <div style="font-size:10px;font-weight:700;color:#10b981;margin-bottom:6px;letter-spacing:.5px">🇸🇬 아시아 · 非통신</div>
+          <div style="font-size:12px">Singtel Enterprise · Cisco Enterprise</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--accent2)">조사 항목</div>
+      <ul style="list-style:none;font-size:12px;display:flex;flex-direction:column;gap:7px">
+        <li>🏗 IA 구조 및 GNB 설계</li>
+        <li>🎨 디자인 시스템 (컬러·타이포·컴포넌트)</li>
+        <li>📦 주요 B2B 서비스 카테고리</li>
+        <li>🎯 마케팅 타겟 및 핵심 CTA</li>
+        <li>📱 모바일 대응 방식</li>
+        <li>🤖 AI·클라우드·보안 신사업 구성</li>
+        <li>⭐ MWC 2025·2026 주요 시연</li>
+        <li>💰 추정 매출 및 B2B 비중</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 02 국내 3사 -->
+<section class="sec" id="domestic">
+  <div class="sec-title"><span class="pill">02</span> 국내 이통3사 분석</div>
+  <div class="card-grid">
+
+    <!-- SKT -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E60000,#FF4444)">SK</div>
+        <div class="co-info">
+          <div class="co-name">SK텔레콤 Enterprise</div>
+          <div class="co-country">🇰🇷 대한민국 · 이동통신 1위</div>
+          <div class="co-url">sktenterprise.com</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐⭐</span> MWC 2025 Global Telco AI Alliance 공동 설립</div>
+        <div class="tags">
+          <span class="tag tag-kr">국내 1위</span>
+          <span class="tag tag-ai">AI 피라미드 2.0</span>
+          <span class="tag tag-5g">5G SA</span>
+          <span class="tag tag-cloud">GPUaaS</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">17.3조</div><div class="stat-l">연결 매출</div></div>
+          <div class="stat"><div class="stat-v">5,199억</div><div class="stat-l">AIDC(2025)</div></div>
+          <div class="stat"><div class="stat-v">약 2,500만</div><div class="stat-l">가입자</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E60000" title="SKT Red"></div>
+            <div class="swatch" style="background:#1A1A1A"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#0088FF"></div>
+            <div class="swatch-info">#E60000 · #1A1A1A · White · Accent Blue</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: T1 전용 서체 / 다크 배경 강조 / 테크 이미지 heavy 사용</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>AI/Data 솔루션</li>
+            <li>네트워크 인프라</li>
+            <li>클라우드·DC</li>
+            <li>보안</li>
+            <li>고객사례 / 인사이트</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">AIDC(GPUaaS·Modular·Dedicated·Hyperscale) · SKT AI CCaaS · Enterprise AI Market · 5G MEC · 보안관제</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+          <div style="font-size:11px;color:var(--muted)">대기업·공공·금융·제조 IT 의사결정자 / "AI 인프라 슈퍼 하이웨이" 메시지 / 상담신청 CTA 전면</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KT -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E60028,#FF4D6A)">KT</div>
+        <div class="co-info">
+          <div class="co-name">KT Enterprise</div>
+          <div class="co-country">🇰🇷 대한민국 · 유선 1위</div>
+          <div class="co-url">enterprise.kt.com</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐</span> MWC 2025·2026 참가</div>
+        <div class="tags">
+          <span class="tag tag-kr">AX 플랫폼</span>
+          <span class="tag tag-ai">MS·팔란티어 협력</span>
+          <span class="tag tag-cloud">KT Cloud</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">26조</div><div class="stat-l">연결 매출</div></div>
+          <div class="stat"><div class="stat-v">2.5조↑</div><div class="stat-l">기업서비스</div></div>
+          <div class="stat"><div class="stat-v">약 2,100만</div><div class="stat-l">가입자</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E60028"></div>
+            <div class="swatch" style="background:#222222"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#005BAC"></div>
+            <div class="swatch-info">#E60028 · #222 · White · KT Blue</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: KT 전용체 / 화이트 배경 클린 스타일 / 산업별 솔루션 비주얼</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>AI 솔루션</li>
+            <li>클라우드·인프라</li>
+            <li>네트워크 (유무선)</li>
+            <li>보안</li>
+            <li>AX 스토리 / 뉴스</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">SOTA K (GPT-4o 기반 한국어 AI) · KT Cloud · AICC · DIDC · 에이전틱 AI · 팔란티어 솔루션 독점 공급</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+          <div style="font-size:11px;color:var(--muted)">금융·제조·공공·국방 / "AX Full Stack" 메시지 / "AX 파트너" 포지셔닝 / 상담문의·도입사례 CTA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGU+ -->
+    <div class="co-card" style="border-color:var(--accent)">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#7935F8,#5A28CC)">U+</div>
+        <div class="co-info">
+          <div class="co-name">LG유플러스 Biz <span style="font-size:10px;background:rgba(121,53,248,.2);color:var(--accent);padding:1px 6px;border-radius:4px;font-weight:700">★ 본 프로젝트</span></div>
+          <div class="co-country">🇰🇷 대한민국 · 기업 전용망 강자</div>
+          <div class="co-url">lguplus.com/biz</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐⭐</span> MWC 2025 ixi-GEN · 2026 AI 사기탐지 시연</div>
+        <div class="tags">
+          <span class="tag tag-kr">본 프로젝트</span>
+          <span class="tag tag-ai">K-엑사원</span>
+          <span class="tag tag-5g">5G SA 예정</span>
+          <span class="tag tag-cloud">AIDC 50%↑</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">14조</div><div class="stat-l">연결 매출</div></div>
+          <div class="stat"><div class="stat-v">4,220억</div><div class="stat-l">AIDC(2025)</div></div>
+          <div class="stat"><div class="stat-v">약 1,600만</div><div class="stat-l">가입자</div></div>
+        </div>
+        <div class="design-row" style="border:1px solid rgba(121,53,248,.25)">
+          <div class="design-title">🎨 디자인 시스템 (현행)</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#7935F8"></div>
+            <div class="swatch" style="background:#181A1B"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#F0EAFF"></div>
+            <div class="swatch" style="background:#6C757D"></div>
+            <div class="swatch-info">#7935F8 · #181A1B · #F0EAFF · #6C757D</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: nskr (LG U+ 전용) / Purple + Dark 이원화 / 카드형 레이아웃</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조 (현행)</div>
+          <ul class="ia-list">
+            <li>상품 (11개 카테고리·55개+)</li>
+            <li>솔루션 (업종별 7 + 유형별 4)</li>
+            <li>인사이트 (6개 유형)</li>
+            <li>고객지원</li>
+            <li>MY (로그인)</li>
+          </ul>
+        </div>
+        <div class="design-row" style="border:1px solid rgba(239,68,68,.2)">
+          <div class="design-title">⚠️ 현황 이슈 (개선 대상)</div>
+          <div style="font-size:11px;color:#f87171;line-height:1.7">
+            · 상품 55개+ → 발견성 취약<br>
+            · '상품'↔'솔루션' 개념 경계 불명확<br>
+            · 검색 진입점 2곳 중복<br>
+            · 모바일 PC 구조 그대로 이식
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 03 글로벌 5사 -->
+<section class="sec" id="global">
+  <div class="sec-title"><span class="pill">03</span> 글로벌 통신사 분석 (5개사)</div>
+  <div class="card-grid">
+
+    <!-- Verizon -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#CD040B,#FF3340)">Vz</div>
+        <div class="co-info">
+          <div class="co-name">Verizon Business</div>
+          <div class="co-country">🇺🇸 미국 · 엔터프라이즈 최강자</div>
+          <div class="co-url">verizon.com/business</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐</span> MWC 2025 Singtel IoT 파트너십</div>
+        <div class="tags">
+          <span class="tag tag-5g">Private 5G</span>
+          <span class="tag tag-iot">IoT 글로벌</span>
+          <span class="tag tag-ai">AI Connect</span>
+          <span class="tag tag-cloud">NaaS</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">$138B</div><div class="stat-l">전사 매출</div></div>
+          <div class="stat"><div class="stat-v">150개국</div><div class="stat-l">서비스 커버</div></div>
+          <div class="stat"><div class="stat-v">Gartner</div><div class="stat-l">WAN 20년 연속</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#CD040B"></div>
+            <div class="swatch" style="background:#000000"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#F2F2F2;border:1px solid #333"></div>
+            <div class="swatch-info">#CD040B · Black · White · Light Gray</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: Verizon NHG / 다크-화이트 대비 강렬 / 비디오 Hero 전면 사용</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>Mobile (Deals · Plans · Devices)</li>
+            <li>Internet</li>
+            <li>Solutions (By Industry · Enterprise · SMB · Public Sector)</li>
+            <li>Insights (Why Verizon · Case Studies)</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">Private 5G · Verizon AI Connect · Network APIs · 5G Edge · NaaS · UCCaaS · Fleet Management · Security · CPaaS</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+          <div style="font-size:11px;color:var(--muted)">제조·헬스케어·공공·금융 대기업 / "Make your enterprise vision a reality" / "Contact Sales" CTA 상시 노출</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- T-Mobile -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E20074,#FF4DA6)">T</div>
+        <div class="co-info">
+          <div class="co-name">T-Mobile Business</div>
+          <div class="co-country">🇺🇸 미국 · 5G 커버리지 1위</div>
+          <div class="co-url">t-mobile.com/business</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐⭐</span> MWC 2026 DT와 6G Innovation Hub 설립</div>
+        <div class="tags">
+          <span class="tag tag-5g">5G 위성 상용화</span>
+          <span class="tag tag-ai">AI $3B EBITDA</span>
+          <span class="tag tag-iot">FWA 기업망</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">$80B</div><div class="stat-l">전사 매출(추정)</div></div>
+          <div class="stat"><div class="stat-v">1.2억</div><div class="stat-l">가입자</div></div>
+          <div class="stat"><div class="stat-v">T-Sat</div><div class="stat-l">2025.7 상용화</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E20074"></div>
+            <div class="swatch" style="background:#000000"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#6E2585"></div>
+            <div class="swatch-info">Magenta #E20074 · Black · White · Purple</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: TeleNeo (DT 공유) / Magenta 강렬 컬러 정체성 / 슬림·다이나믹 레이아웃</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>Plans & Devices</li>
+            <li>Solutions (By Business Size · By Industry)</li>
+            <li>Enterprise (전용 허브)</li>
+            <li>Resources & Insights</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">T-Satellite (위성D2D) · 5G FWA 엔터프라이즈 · Private 5G · T-Priority (응급기관) · 산업별 솔루션 (헬스케어·리테일·제조)</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+          <div style="font-size:11px;color:var(--muted)">중견~대기업, 공공기관 / "Best 5G Network for Business" / 혁신 어워드(Innovate Awards) 캠페인 운영</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deutsche Telekom -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E20074,#C0005E)">DT</div>
+        <div class="co-info">
+          <div class="co-name">Deutsche Telekom Business</div>
+          <div class="co-country">🇩🇪 독일 · 유럽 AI 네트워크 선도</div>
+          <div class="co-url">telekom.com/en/business</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐⭐⭐</span> MWC 2025·2026 최대 규모 시연 — Magenta AI / MINDR</div>
+        <div class="tags">
+          <span class="tag tag-ai">Magenta AI</span>
+          <span class="tag tag-5g">6G 선행연구</span>
+          <span class="tag tag-cloud">NVIDIA AI Factory</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">€95B</div><div class="stat-l">그룹 매출</div></div>
+          <div class="stat"><div class="stat-v">2.4억</div><div class="stat-l">가입자</div></div>
+          <div class="stat"><div class="stat-v">MWC</div><div class="stat-l">⭐⭐⭐</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템 (OneExperience)</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E20074"></div>
+            <div class="swatch" style="background:#000000"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#F2F2F2;border:1px solid #333"></div>
+            <div class="swatch-info">Magenta #E20074 · Black · White · Gray</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: TeleNeo (전용 가변 폰트) / Liquid Brand Design / MWC 2025 OneExperience 디자인시스템 런칭</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>Products (IoT · Cloud · Security · Voice)</li>
+            <li>Solutions (By Industry)</li>
+            <li>AI (Magenta AI · MINDR · AI Factory)</li>
+            <li>Partners</li>
+            <li>Insights & News</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">MINDR 자율네트워크 · Magenta AI Call Assistant · Munich AI Factory (NVIDIA) · European Edge Continuum · T-Systems ERP/IT · Business Cloud (SME·Public)</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">💡 벤치마킹 주목 포인트</div>
+          <div style="font-size:11px;color:#a78bfa">MWC 2025에서 디자인 시스템(OneExperience) 자체를 제품 발표처럼 공개. 접근성·옴니채널 통합이 경쟁 우위로 작동.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vodafone -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E60000,#FF4D00)">Vf</div>
+        <div class="co-info">
+          <div class="co-name">Vodafone Business</div>
+          <div class="co-country">🇬🇧 영국 · IoT 세계 최대</div>
+          <div class="co-url">vodafone.com/business</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐</span> MWC 2025·2026 Aduna Network API 참여</div>
+        <div class="tags">
+          <span class="tag tag-iot">IoT 180개국</span>
+          <span class="tag tag-5g">5G SatCo</span>
+          <span class="tag tag-ai">AI Field Technician</span>
+          <span class="tag tag-cloud">Skaylink 인수</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">€37B</div><div class="stat-l">전사 매출</div></div>
+          <div class="stat"><div class="stat-v">3.5억</div><div class="stat-l">가입자</div></div>
+          <div class="stat"><div class="stat-v">26%</div><div class="stat-l">B2B 비중</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E60000"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#333333"></div>
+            <div class="swatch" style="background:#F4F4F4;border:1px solid #ddd"></div>
+            <div class="swatch-info">Red #E60000 · White · Charcoal · Light BG</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: Vodafone 전용체 / "The Future is Exciting. Ready?" 슬로건 기반 미래지향 비주얼</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>Products (Mobile · Fixed · IoT · Cloud · Security · UC)</li>
+            <li>Solutions (By Size · By Industry)</li>
+            <li>Global (Carrier Wholesale)</li>
+            <li>Insights</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">IoT 매니지드 서비스 (180개국) · Vodafone Business Internet · SatCo (AST SpaceMobile JV) · Field Technician Assist AI · Skaylink Cloud</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+          <div style="font-size:11px;color:var(--muted)">글로벌 다국적기업·정부기관 / €144B 어드레서블마켓 강조 / Centrica 파트너십 사례 전면 홍보</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Singtel -->
+    <div class="co-card">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#E30613,#FF6633)">Sg</div>
+        <div class="co-info">
+          <div class="co-name">Singtel Enterprise</div>
+          <div class="co-country">🇸🇬 싱가포르 · 아태 디지털 허브</div>
+          <div class="co-url">singtel.com/business</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="mwc-badge"><span class="star">⭐⭐</span> MWC 2025 Global Telco AI Alliance · Aduna 창립 멤버</div>
+        <div class="tags">
+          <span class="tag tag-ai">Telco AI Alliance</span>
+          <span class="tag tag-5g">5G 아태</span>
+          <span class="tag tag-cloud">Nxera DC</span>
+          <span class="tag tag-iot">Aduna API</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-v">$13B</div><div class="stat-l">전사 매출</div></div>
+          <div class="stat"><div class="stat-v">800M</div><div class="stat-l">그룹 가입자</div></div>
+          <div class="stat"><div class="stat-v">20개국</div><div class="stat-l">서비스 지역</div></div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🎨 디자인 시스템</div>
+          <div class="color-row">
+            <div class="swatch" style="background:#E30613"></div>
+            <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+            <div class="swatch" style="background:#1D1D1B"></div>
+            <div class="swatch" style="background:#FF6600"></div>
+            <div class="swatch-info">Red #E30613 · White · Dark · Orange Accent</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">폰트: Singtel 전용체 / 아태 비즈니스 감성 / 깔끔한 카드 기반 레이아웃</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">🏗 GNB / IA 구조</div>
+          <ul class="ia-list">
+            <li>Connectivity (5G · Fixed · SD-WAN)</li>
+            <li>Cybersecurity</li>
+            <li>Cloud (Nxera DC · NCS)</li>
+            <li>AI &amp; Analytics</li>
+            <li>Industry Solutions</li>
+          </ul>
+        </div>
+        <div class="design-row">
+          <div class="design-title">📦 핵심 B2B 서비스</div>
+          <div style="font-size:11px;color:var(--muted)">Nxera Data Centre · NCS IT Services · Managed Security · 5G Enterprise · IoT (Verizon 파트너) · Aduna Network API</div>
+        </div>
+        <div class="design-row">
+          <div class="design-title">💡 벤치마킹 주목 포인트</div>
+          <div style="font-size:11px;color:#a78bfa">Frost & Sullivan 2025 APAC 5G Enterprise 올해의 기업 수상. 아태 엔터프라이즈 레퍼런스 풍부. 사이버보안-클라우드-연결의 3축 통합 메시지 명확.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 Cisco -->
+<section class="sec" id="cisco">
+  <div class="sec-title"><span class="pill">04</span> Cisco Enterprise (非통신 비교 대상)</div>
+  <div class="card-grid">
+    <div class="co-card" style="grid-column:span 2">
+      <div class="co-head">
+        <div class="co-logo" style="background:linear-gradient(135deg,#049FD9,#0078A3)">Cs</div>
+        <div class="co-info">
+          <div class="co-name">Cisco Enterprise Solutions</div>
+          <div class="co-country">🇺🇸 미국 · B2B 네트워크·보안·협업 글로벌 1위</div>
+          <div class="co-url">cisco.com/solutions/enterprise</div>
+        </div>
+      </div>
+      <div class="co-body">
+        <div class="co-divider"></div>
+        <div class="tags">
+          <span class="tag tag-ai">AI-Native Networking</span>
+          <span class="tag tag-5g">Private 5G 파트너</span>
+          <span class="tag tag-cloud">Webex · Meraki</span>
+          <span class="tag tag-iot">SASE · Zero Trust</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div>
+            <div class="design-row">
+              <div class="design-title">🎨 디자인 시스템 (Muse / Atmosphere)</div>
+              <div class="color-row">
+                <div class="swatch" style="background:#049FD9"></div>
+                <div class="swatch" style="background:#005073"></div>
+                <div class="swatch" style="background:#FFFFFF;border:1px solid #333"></div>
+                <div class="swatch" style="background:#1B262C"></div>
+                <div class="swatch" style="background:#00BCEB"></div>
+                <div class="swatch-info">Blue #049FD9 · Dark Blue · White · Dark BG · Light Blue</div>
+              </div>
+              <div style="font-size:11px;color:var(--muted);margin-top:6px">
+                폰트: CiscoSans · 2025년 색상 시스템 대규모 업데이트 (접근성·테마 기반) · Muse 디자인 시스템 공개 · 컴포넌트 오픈소스화
+              </div>
+            </div>
+            <div class="design-row">
+              <div class="design-title">🏗 GNB / IA 구조 (전형적 Enterprise UX 기준)</div>
+              <ul class="ia-list">
+                <li>Products (Networking · Security · Collaboration · DC)</li>
+                <li>Solutions (By Industry · By Technology · By Outcome)</li>
+                <li>Support & Services</li>
+                <li>Partners</li>
+                <li>Learn (Docs · Community · Training)</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="design-row">
+              <div class="design-title">📦 핵심 B2B 서비스</div>
+              <div style="font-size:11px;color:var(--muted);line-height:1.8">
+                Webex (UCaaS) · Meraki (클라우드 네트워킹) · Catalyst (캠퍼스 네트워크) · SecureX / Umbrella (보안) · AppDynamics (AIOps) · IoT Edge · Private 5G 파트너 솔루션
+              </div>
+            </div>
+            <div class="design-row">
+              <div class="design-title">🎯 마케팅 타겟 &amp; CTA</div>
+              <div style="font-size:11px;color:var(--muted)">CIO·CISO·IT 아키텍트 / "Connect Securely. Work Smarter." / Try·Buy·Demo 3단계 CTA / Gartner MQ 리더십 신뢰 구축</div>
+            </div>
+            <div class="design-row" style="border:1px solid rgba(0,188,235,.2)">
+              <div class="design-title">💡 통신사 대비 벤치마킹 포인트</div>
+              <div style="font-size:11px;color:#00d4ff;line-height:1.7">
+                · <strong>Learn 허브</strong>: Docs·Community·DevNet 등 학습 생태계가 제품 못지않은 유입 채널<br>
+                · <strong>솔루션 ByOutcome</strong>: 기능이 아닌 "비즈니스 성과" 기반 IA로 B2B 구매자 여정 최적화<br>
+                · <strong>오픈 디자인 시스템</strong>: Muse 공개 → 파트너·개발자와 일관성 유지<br>
+                · <strong>Partner 전용 트랙</strong>: 채널 파트너를 위한 별도 포탈·인증 체계
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 종합 비교 -->
+<section class="sec" id="compare">
+  <div class="sec-title"><span class="pill">05</span> 9개사 종합 비교표</div>
+  <div class="compare-wrap">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>업체</th>
+          <th>국가</th>
+          <th>Primary Color</th>
+          <th>폰트 전략</th>
+          <th>IA 깊이</th>
+          <th>AI 강조</th>
+          <th>모바일 UX</th>
+          <th>리드 CTA</th>
+          <th>MWC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="co">SK텔레콤</td><td><span class="flag">🇰🇷</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E60000;display:inline-block"></span>#E60000</span></td>
+          <td>T1 전용체</td>
+          <td><span class="chip chip-med">3Depth</span></td>
+          <td><span class="chip chip-high">최상 (AIDC·AX)</span></td>
+          <td><span class="chip chip-med">보통</span></td>
+          <td>상담신청</td>
+          <td><span class="chip chip-mwc">⭐⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">KT</td><td><span class="flag">🇰🇷</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E60028;display:inline-block"></span>#E60028</span></td>
+          <td>KT 전용체</td>
+          <td><span class="chip chip-high">4Depth</span></td>
+          <td><span class="chip chip-high">높음 (AX Full Stack)</span></td>
+          <td><span class="chip chip-med">보통</span></td>
+          <td>AX 상담</td>
+          <td><span class="chip chip-mwc">⭐</span></td>
+        </tr>
+        <tr style="background:rgba(121,53,248,.04)">
+          <td class="co">LG유플러스 ★</td><td><span class="flag">🇰🇷</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#7935F8;display:inline-block"></span>#7935F8</span></td>
+          <td>nskr 전용체</td>
+          <td><span class="chip chip-high">3Depth+</span></td>
+          <td><span class="chip chip-med">중간 (ixi-GEN)</span></td>
+          <td><span class="chip chip-low">개선 필요</span></td>
+          <td>간편상담</td>
+          <td><span class="chip chip-mwc">⭐⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">Verizon Business</td><td><span class="flag">🇺🇸</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#CD040B;display:inline-block"></span>#CD040B</span></td>
+          <td>Verizon NHG</td>
+          <td><span class="chip chip-high">4Depth</span></td>
+          <td><span class="chip chip-high">높음 (AI Connect)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Contact Sales</td>
+          <td><span class="chip chip-mwc">⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">T-Mobile Business</td><td><span class="flag">🇺🇸</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E20074;display:inline-block"></span>#E20074</span></td>
+          <td>TeleNeo</td>
+          <td><span class="chip chip-med">3Depth</span></td>
+          <td><span class="chip chip-med">중간 (AI 디지털화)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Get Quote</td>
+          <td><span class="chip chip-mwc">⭐⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">Deutsche Telekom</td><td><span class="flag">🇩🇪</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E20074;display:inline-block"></span>#E20074</span></td>
+          <td>TeleNeo (가변)</td>
+          <td><span class="chip chip-high">4Depth</span></td>
+          <td><span class="chip chip-high">최상 (Magenta AI)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Contact / Demo</td>
+          <td><span class="chip chip-mwc">⭐⭐⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">Vodafone Business</td><td><span class="flag">🇬🇧</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E60000;display:inline-block"></span>#E60000</span></td>
+          <td>Vodafone 전용체</td>
+          <td><span class="chip chip-high">4Depth</span></td>
+          <td><span class="chip chip-med">중간 (Field AI)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Talk to Expert</td>
+          <td><span class="chip chip-mwc">⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">Singtel Enterprise</td><td><span class="flag">🇸🇬</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#E30613;display:inline-block"></span>#E30613</span></td>
+          <td>Singtel 전용체</td>
+          <td><span class="chip chip-high">4Depth</span></td>
+          <td><span class="chip chip-high">높음 (AI Alliance)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Contact Us</td>
+          <td><span class="chip chip-mwc">⭐⭐</span></td>
+        </tr>
+        <tr>
+          <td class="co">Cisco Enterprise</td><td><span class="flag">🇺🇸</span></td>
+          <td><span style="display:inline-flex;align-items:center;gap:5px"><span class="swatch" style="width:14px;height:14px;border-radius:3px;background:#049FD9;display:inline-block"></span>#049FD9</span></td>
+          <td>CiscoSans</td>
+          <td><span class="chip chip-high">5Depth+</span></td>
+          <td><span class="chip chip-high">높음 (AIOps)</span></td>
+          <td><span class="chip chip-high">우수</span></td>
+          <td>Try / Buy / Demo</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 06 인사이트 -->
+<section class="sec" id="insight">
+  <div class="sec-title"><span class="pill">06</span> LG U+ Biz 개선을 위한 핵심 인사이트</div>
+  <div class="insight-grid">
+    <div class="insight-card">
+      <h4>🏗 IA 단순화 — Verizon·DT 참조</h4>
+      <p>Verizon·DT는 "By Industry" + "By Technology" 이원 진입 구조로 55개+ 상품의 발견성을 해결. LG U+ Biz도 현행 카테고리 나열에서 '업종별 솔루션' 진입 경로를 상위 레벨로 격상 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>🎯 AI를 전면으로 — SKT·DT 참조</h4>
+      <p>SKT의 "AI 피라미드 2.0", DT의 "Magenta AI"처럼 AI를 독립 섹션이 아닌 전체 사이트의 내러티브 축으로 설정. 현재 LG U+ Biz의 AI는 솔루션 하위에 위치 — 홈 Hero 수준으로 격상 검토 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>🎨 디자인 시스템 공개 — DT 참조</h4>
+      <p>Deutsche Telekom은 MWC 2025에서 'OneExperience' 디자인 시스템을 제품처럼 발표. 접근성·옴니채널 통합이 B2B 신뢰도로 직결. LG U+ Biz도 컴포넌트 일관성 가이드 강화 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>📱 모바일 퍼스트 — T-Mobile·Singtel 참조</h4>
+      <p>T-Mobile·Singtel은 모바일에서 데스크톱과 동일한 수준의 솔루션 탐색·상담 경험 제공. LG U+ Biz는 현재 PC 기반 구조를 모바일에 그대로 이식 — 별도 모바일 IA 재설계 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>🤝 도입사례 허브 — Verizon·Cisco 참조</h4>
+      <p>Verizon의 "Customer Success Stories", Cisco의 "Case Studies by Industry" 등 수직 산업별 레퍼런스가 B2B 전환의 핵심 콘텐츠. LG U+ Biz 인사이트 섹션의 도입사례 카테고리 강화 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>🔐 보안 신뢰도 — Cisco·Vodafone 참조</h4>
+      <p>Cisco의 Zero Trust·SASE, Vodafone의 SatCo·Field AI처럼 보안을 독립 진입 경로로 설계. B2B 고객의 최대 우려사항. LG U+ Biz 보안 상품 발견성·설명력 강화 우선 과제.</p>
+    </div>
+    <div class="insight-card">
+      <h4>💡 컬러 아이덴티티 차별화</h4>
+      <p>9개사 중 5개(SKT·KT·Verizon·Vodafone·Singtel)가 Red 계열 사용. LG U+ Biz의 Purple(#7935F8)은 실질적 차별점. 단, AI·미래기술 섹션에서 Purple의 의미적 활용 일관성 강화 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>📞 CTA 다양화 — 글로벌 3사 참조</h4>
+      <p>Verizon "877-…전화번호 노출", Cisco "Try / Buy / Demo 3단계", DT "Contact / Demo" 병행. 현행 LG U+ Biz의 "간편 상담 신청" 단일 CTA에서 → 즉시상담·데모신청·자료다운로드 다변화 필요.</p>
+    </div>
+    <div class="insight-card">
+      <h4>⭐ MWC 연계 콘텐츠 — DT·SKT 참조</h4>
+      <p>DT·SKT는 MWC 발표를 홈페이지 콘텐츠로 즉각 전환. "MWC 2026 혁신 발표" 랜딩 페이지가 신규 리드 유입 채널로 작동. LG U+ Biz도 MWC 참가를 홈페이지 마케팅과 연결 필요.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  LG U+ Biz 기업 홈페이지 개선 프로젝트 — 벤치마킹 리포트 · 2026-05-15<br>
+  ⚠️ 매출·가입자 수치는 공개 IR 자료 및 시장조사 기반 추정치 포함. 정확한 수치는 각사 공식 자료 확인 필요.
+</footer>
+
+<script>
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.tab-bar a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+});
+</script>
+</body>
+</html>

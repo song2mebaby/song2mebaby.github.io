@@ -1,0 +1,509 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LG U+ Biz GUI 스타일 가이드</title><style>
+:root{--p:#7935F8;--pl:#F0EAFF;--pd:#5A28CC;--pa:#6B2FE8;--bk:#181A1B;--ch:#1A1A1A;--gm:#6C757D;--gl:#F8F9FA;--bd:#E0E0E0;--wh:#fff}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f5f5f7;color:var(--bk)}
+.hdr{background:linear-gradient(135deg,#1A1A1A 0%,#2d1a6e 100%);color:#fff;padding:40px}
+.badge{display:inline-block;background:var(--p);color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:12px}
+.hdr h1{font-size:clamp(20px,4vw,34px);font-weight:800;margin-bottom:8px}
+.hdr .sub{font-size:14px;color:#bbb;margin-bottom:16px}
+.meta{display:flex;flex-wrap:wrap;gap:12px}
+.meta span{font-size:13px;color:#bbb}.meta strong{color:var(--p)}
+nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto;white-space:nowrap;padding:0 32px}
+nav a{display:inline-block;padding:14px 14px;font-size:13px;font-weight:500;color:var(--gm);text-decoration:none;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.on{color:var(--p);border-bottom-color:var(--p)}
+main{max-width:1200px;margin:0 auto;padding:32px 20px}
+.sec{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stit{font-size:18px;font-weight:700;margin-bottom:22px;padding-bottom:12px;border-bottom:2px solid var(--p);display:flex;align-items:center;gap:8px}
+.stit .n{background:var(--p);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+.subsec{margin-bottom:28px}
+.subtit{font-size:14px;font-weight:700;color:var(--gm);margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+/* COLOR */
+.cg{display:flex;flex-wrap:wrap;gap:12px}
+.cs{border-radius:10px;overflow:hidden;border:1px solid var(--bd);min-width:160px;flex:1}
+.cswatch{height:80px}
+.cinfo{padding:10px 12px;background:#fff}
+.cname{font-size:13px;font-weight:700;margin-bottom:2px}
+.chex{font-size:11px;color:var(--gm);font-family:monospace}
+.cuse{font-size:11px;color:var(--gm);margin-top:4px;line-height:1.4}
+/* TYPE */
+.trow{display:flex;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid var(--bd)}
+.trow:last-child{border-bottom:none}
+.tsample{flex:1;min-width:200px}
+.tmeta{width:300px;font-size:12px;color:var(--gm);flex-shrink:0}
+.tmeta table{width:100%;border-collapse:collapse}
+.tmeta td{padding:2px 6px;vertical-align:top}
+.tmeta td:first-child{color:var(--gm);width:80px}
+/* BTN */
+.bg{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.bc{background:var(--gl);border-radius:10px;padding:20px;flex:1;min-width:180px}
+.bcl{font-size:12px;font-weight:700;color:var(--gm);margin-bottom:12px;text-transform:uppercase}
+.btn-primary{background:var(--p);color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:16px;font-weight:500;cursor:pointer;transition:.2s}
+.btn-primary:hover{background:var(--pa)}
+.btn-outline{background:transparent;border:1px solid var(--p);color:var(--p);padding:10px 22px;border-radius:20px;font-size:14px;cursor:pointer;transition:.2s}
+.btn-outline:hover{background:var(--pl)}
+.btn-dark{background:var(--ch);color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:16px;cursor:pointer}
+.btn-ghost{background:rgba(255,255,255,.4);color:var(--ch);border:1px solid rgba(0,0,0,.1);padding:12px 24px;border-radius:6px;font-size:14px;cursor:pointer}
+.btn-disabled{background:#D0D0D0;color:#999;border:none;padding:12px 24px;border-radius:6px;font-size:16px;cursor:not-allowed}
+.btn-state-table{width:100%;border-collapse:collapse;font-size:13px}
+.btn-state-table th{background:var(--gl);padding:8px 12px;text-align:left;font-weight:600;border-bottom:1px solid var(--bd)}
+.btn-state-table td{padding:8px 12px;border-bottom:1px solid var(--bd)}
+/* CARD */
+.ckg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card-product{background:var(--p);border-radius:10px;padding:20px;color:#fff;position:relative;min-height:160px}
+.card-product .cbadge{display:inline-block;background:rgba(255,255,255,.2);font-size:11px;padding:3px 10px;border-radius:12px;margin-bottom:10px}
+.card-product h4{font-size:22px;font-weight:800;margin-bottom:6px}
+.card-product p{font-size:12px;opacity:.8;margin-bottom:16px}
+.card-product .cta{display:inline-block;background:rgba(255,255,255,.15);padding:7px 16px;border-radius:5px;font-size:13px;margin-top:auto}
+.card-insight{background:var(--pl);border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card-insight .ci-cat{font-size:11px;font-weight:700;color:var(--p);margin-bottom:6px}
+.card-insight .ci-title{font-size:14px;font-weight:700;line-height:1.4}
+.card-insight .ci-img{width:80px;height:80px;border-radius:8px;background:linear-gradient(135deg,var(--p),var(--pd));flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px}
+.card-industry{border-radius:10px;padding:16px 18px;color:#fff;background:var(--p)}
+.card-industry h4{font-size:20px;font-weight:800;margin-bottom:4px}
+.card-industry p{font-size:12px;opacity:.8}
+.card-industry.inactive{background:#3D3D3D}
+.card-stat{background:#fff;border:1px solid #EFEFEF;border-radius:12px;padding:18px;display:flex;align-items:flex-start;gap:12px}
+.card-stat .ico{width:40px;height:40px;border-radius:8px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.card-stat .num{font-size:24px;font-weight:800;color:var(--p)}
+.card-stat .desc{font-size:12px;color:var(--gm)}
+.card-list{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--bd)}
+.card-list .cl-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#e8e0ff,#d4c5ff);display:flex;align-items:center;justify-content:center;font-size:40px}
+.card-list .cl-body{padding:14px}
+.card-list .cl-title{font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.card-list .cl-meta{font-size:12px;color:var(--gm);display:flex;justify-content:space-between}
+/* LAYOUT */
+.layout-demo{border-radius:8px;overflow:hidden;border:1px solid var(--bd)}
+.ld-header{background:var(--ch);color:#fff;padding:8px 16px;font-size:12px;font-weight:700}
+.ld-topbar{background:#333;color:#aaa;padding:4px 16px;font-size:11px}
+.ld-gnb{background:#fff;border-bottom:1px solid var(--bd);padding:8px 16px;display:flex;align-items:center;gap:16px;font-size:12px}
+.ld-gnb .logo{font-weight:800;color:var(--p);margin-right:auto}
+.ld-gnb .menu{display:flex;gap:16px}
+.ld-gnb .cta{background:var(--p);color:#fff;padding:5px 12px;border-radius:5px;font-size:11px}
+.ld-hero{background:var(--gl);padding:12px 16px;display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.ld-hero-main{background:var(--p);border-radius:6px;padding:16px;color:#fff;font-size:11px}
+.ld-hero-main h4{font-size:15px;font-weight:800;margin-bottom:4px}
+.ld-hero-sub{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+.ld-hero-ins{background:var(--pl);border-radius:6px;padding:8px;font-size:10px}
+.ld-hero-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ld-hero-press{background:#222;border-radius:6px;padding:8px;font-size:10px;color:#aaa}
+.ld-hero-search{background:#1a1a1a;border-radius:6px;padding:8px;font-size:10px;color:#888;display:flex;align-items:center;justify-content:space-between}
+.ld-section{padding:16px;background:#fff}
+.ld-section h5{font-size:12px;font-weight:700;margin-bottom:10px;color:var(--gm)}
+.ld-cards{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.ld-card{background:var(--ch);border-radius:5px;padding:8px;color:#fff;font-size:9px;text-align:center}
+.ld-card.active{background:var(--p)}
+.ld-footer{background:var(--ch);color:#888;padding:12px 16px;font-size:11px}
+/* MO LAYOUT */
+.mo-demo{max-width:375px;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin:0 auto}
+.mo-topbar{background:var(--ch);color:#aaa;padding:4px 12px;font-size:10px;text-align:center}
+.mo-gnb{background:#fff;border-bottom:1px solid var(--bd);padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:11px}
+.mo-gnb .logo{font-weight:800;color:var(--p);flex:1}
+.mo-hero{background:var(--p);margin:10px;border-radius:8px;padding:16px;color:#fff;font-size:11px}
+.mo-hero h4{font-size:16px;font-weight:800;margin-bottom:4px}
+.mo-hero .slides{display:flex;gap:4px;margin-top:8px}
+.mo-hero .slide-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
+.mo-hero .slide-dot.on{background:#fff;width:12px;border-radius:3px}
+.mo-scroll{padding:0 10px;overflow-x:auto;white-space:nowrap;margin:8px 0}
+.mo-scroll::-webkit-scrollbar{display:none}
+.mo-chip{display:inline-block;background:var(--p);color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;margin-right:6px}
+.mo-chip.gray{background:#3d3d3d}
+.mo-content{padding:0 10px}
+.mo-card-h{background:var(--pl);border-radius:8px;padding:12px;margin-bottom:8px;font-size:11px}
+.mo-tabbar{background:#fff;border-top:1px solid var(--bd);padding:8px 0;display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font-size:9px}
+.mo-tabbar .tab{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--gm)}
+.mo-tabbar .tab.on{color:var(--p)}
+.mo-tabbar .tab .ico{font-size:16px}
+/* ANCHOR */
+.anchor-demo{display:flex;gap:16px}
+.anchor-menu{width:160px;flex-shrink:0}
+.anchor-item{padding:10px 14px;font-size:13px;border-left:3px solid transparent;color:var(--gm);cursor:pointer;transition:.2s}
+.anchor-item.on{border-left-color:var(--p);color:var(--p);font-weight:700}
+.anchor-content{flex:1;background:var(--gl);border-radius:8px;padding:20px;font-size:13px;color:var(--gm)}
+/* ICON */
+.icon-grid{display:flex;flex-wrap:wrap;gap:12px}
+.icon-item{display:flex;flex-direction:column;align-items:center;gap:6px;width:80px}
+.icon-circle{width:48px;height:48px;border-radius:50%;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:22px}
+.icon-label{font-size:11px;color:var(--gm);text-align:center}
+/* BREADCRUMB */
+.bc-demo{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gm)}
+.bc-demo .sep{color:var(--bd)}
+.bc-demo .cur{color:var(--bk);font-weight:600}
+/* FLOATING */
+.float-demo{position:relative;background:var(--gl);border-radius:8px;padding:20px;min-height:120px}
+.float-menu{position:absolute;right:16px;top:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.float-btn{background:var(--p);color:#fff;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 4px 12px rgba(121,53,248,.3)}
+.float-sub{background:#fff;color:var(--bk);border:1px solid var(--bd);padding:7px 14px;border-radius:20px;font-size:12px;white-space:nowrap}
+/* GRID VIZ */
+.grid-demo{background:var(--gl);padding:16px;border-radius:8px}
+.grid-row{display:grid;gap:8px;margin-bottom:8px}
+.grid-col{background:rgba(121,53,248,.12);border:1px dashed var(--p);border-radius:4px;padding:8px;text-align:center;font-size:11px;color:var(--p);font-weight:600}
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hdr{padding:24px 16px}.sec{padding:18px 14px}main{padding:16px 12px}
+  .cg{flex-direction:column}.ckg{grid-template-columns:1fr}.bg{flex-direction:column}
+  .anchor-demo{flex-direction:column}.anchor-menu{width:100%}
+  .ld-hero{grid-template-columns:1fr}.ld-cards{grid-template-columns:repeat(4,1fr)}
+  .trow{flex-direction:column}.tmeta{width:100%}
+}
+</style></head><body>
+<div class="hdr">
+  <div class="badge">GUI 스타일 가이드 v1.0</div>
+  <h1>LG U+ 기업(Biz) 사이트<br>GUI Style Guide</h1>
+  <p class="sub">사이트 개선 프로젝트 시 UI 일관성 유지 및 개선 방향 수립</p>
+  <div class="meta">
+    <span>분석 대상: <strong>lguplus.com/biz (PC 기준)</strong></span>
+    <span>분석 기준일: <strong>2026-05-14</strong></span>
+  </div>
+</div>
+<nav>
+  <a href="#color">01 컬러</a>
+  <a href="#typo">02 타이포</a>
+  <a href="#btn">03 버튼</a>
+  <a href="#card">04 카드</a>
+  <a href="#layout">05 레이아웃</a>
+  <a href="#icon">06 아이콘</a>
+  <a href="#screen">07 화면별 GUI</a>
+</nav>
+<main>
+
+<!-- 1. COLOR -->
+<section class="sec" id="color">
+  <div class="stit"><span class="n">01</span> 브랜드 컬러 시스템</div>
+  <div class="subsec">
+    <div class="subtit">Primary Colors</div>
+    <div class="cg">
+      <div class="cs"><div class="cswatch" style="background:#7935F8"></div><div class="cinfo"><div class="cname">LG U+ Purple</div><div class="chex">#7935F8 · rgb(121,53,248)</div><div class="cuse">주요 CTA 버튼, 강조 요소, 카드 배경, 로고 포인트</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#181A1B"></div><div class="cinfo"><div class="cname">Deep Black</div><div class="chex">#181A1B · rgb(24,26,27)</div><div class="cuse">본문 헤딩, 주요 텍스트</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#fff;border-bottom:1px solid #e0e0e0"></div><div class="cinfo"><div class="cname">Pure White</div><div class="chex">#FFFFFF</div><div class="cuse">배경, 카드, 텍스트 on Dark</div></div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">Secondary / Accent Colors</div>
+    <div class="cg">
+      <div class="cs"><div class="cswatch" style="background:#F0EAFF"></div><div class="cinfo"><div class="cname">Light Purple</div><div class="chex">#F0EAFF</div><div class="cuse">뉴스레터 카드 배경, 서브 섹션 배경</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#1A1A1A"></div><div class="cinfo"><div class="cname">Dark Charcoal</div><div class="chex">#1A1A1A</div><div class="cuse">다크 카드 배경 (검색 블록, 보도자료)</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#6C757D"></div><div class="cinfo"><div class="cname">Medium Gray</div><div class="chex">#6C757D</div><div class="cuse">서브텍스트, 날짜, 비활성 상태</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#F8F9FA;border-bottom:1px solid #e0e0e0"></div><div class="cinfo"><div class="cname">Light Gray</div><div class="chex">#F8F9FA</div><div class="cuse">페이지 배경, 카드 배경</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#E0E0E0"></div><div class="cinfo"><div class="cname">Border Gray</div><div class="chex">#E0E0E0</div><div class="cuse">구분선, 카드 테두리</div></div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">Interaction Colors</div>
+    <div class="cg">
+      <div class="cs"><div class="cswatch" style="background:#6B2FE8"></div><div class="cinfo"><div class="cname">Hover Purple</div><div class="chex">#6B2FE8</div><div class="cuse">Primary 버튼 호버</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#5A28CC"></div><div class="cinfo"><div class="cname">Active Purple</div><div class="chex">#5A28CC</div><div class="cuse">클릭/활성 상태</div></div></div>
+      <div class="cs"><div class="cswatch" style="background:#C8C8C8"></div><div class="cinfo"><div class="cname">Disabled</div><div class="chex">#C8C8C8</div><div class="cuse">비활성 버튼</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. TYPOGRAPHY -->
+<section class="sec" id="typo">
+  <div class="stit"><span class="n">02</span> 타이포그래피</div>
+  <div class="subsec">
+    <div class="subtit">폰트 패밀리</div>
+    <div style="background:#F8F9FA;border-radius:8px;padding:16px;font-size:13px;font-family:monospace;line-height:1.8">
+      Primary: <strong>nskr</strong> (LG U+ 전용 한글 폰트)<br>
+      Fallback: -apple-system, "Apple SD Gothic Neo", AppleGothic, "Malgun Gothic", Dotum, sans-serif
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">Type Scale (PC 기준)</div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:60px;font-weight:800;line-height:1.1">Display XL</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>h2 (Hero)</td></tr><tr><td>크기</td><td>60px / w800</td></tr><tr><td>행간</td><td>78px</td></tr><tr><td>용도</td><td>메인 Hero 헤딩</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:40px;font-weight:500;line-height:1.2">Display L</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>h1</td></tr><tr><td>크기</td><td>40px / w500</td></tr><tr><td>행간</td><td>48px</td></tr><tr><td>용도</td><td>페이지 타이틀</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:32px;font-weight:700">Heading 1</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>h2</td></tr><tr><td>크기</td><td>32–40px / w700</td></tr><tr><td>행간</td><td>1.3em</td></tr><tr><td>용도</td><td>섹션 타이틀</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:24px;font-weight:700">Heading 2</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>h3</td></tr><tr><td>크기</td><td>24–28px / w700</td></tr><tr><td>행간</td><td>1.4em</td></tr><tr><td>용도</td><td>서브 섹션 타이틀</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:18px;font-weight:400">Body Large — 소개문, 설명문에 사용되는 텍스트입니다.</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>p</td></tr><tr><td>크기</td><td>18–20px / w400</td></tr><tr><td>행간</td><td>1.6em</td></tr><tr><td>용도</td><td>소개문, 설명문</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:16px;font-weight:400">Body Default — 일반 본문 텍스트입니다. 가독성을 위해 1.6em 행간을 사용합니다.</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>p</td></tr><tr><td>크기</td><td>16px / w400</td></tr><tr><td>행간</td><td>1.6em</td></tr><tr><td>용도</td><td>일반 본문</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:14px;color:#6C757D">Body Small — 캡션, 날짜, 보조 정보 · 2026-05-14</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>span</td></tr><tr><td>크기</td><td>14px / w400</td></tr><tr><td>행간</td><td>1.5em</td></tr><tr><td>용도</td><td>캡션, 날짜</td></tr></tbody></table></div>
+    </div>
+    <div class="trow">
+      <div class="tsample"><span style="font-size:12px;font-weight:700;background:#7935F8;color:#fff;padding:3px 10px;border-radius:4px">LABEL TAG</span></div>
+      <div class="tmeta"><table><tbody><tr><td>태그</td><td>span</td></tr><tr><td>크기</td><td>12–13px / w700</td></tr><tr><td>용도</td><td>카테고리 배지, 태그</td></tr></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. BUTTON -->
+<section class="sec" id="btn">
+  <div class="stit"><span class="n">03</span> 버튼 컴포넌트</div>
+  <div class="bg">
+    <div class="bc">
+      <div class="bcl">Primary Button</div>
+      <button class="btn-primary">간편 상담 신청</button>
+      <div style="margin-top:10px;font-size:11px;color:#6C757D">bg: #7935F8 · radius: 6px · padding: 12px 24px<br>className: c-btn-new-solid-1</div>
+    </div>
+    <div class="bc">
+      <div class="bcl">Secondary (Outline)</div>
+      <button class="btn-outline">업종 필터</button>
+      <div style="margin-top:10px;font-size:11px;color:#6C757D">border: 1px solid #7935F8 · radius: 20px<br>pill형 — 업종/유형 탭 필터용</div>
+    </div>
+    <div class="bc" style="background:#2a2a2a">
+      <div class="bcl" style="color:#888">Dark Button</div>
+      <button class="btn-dark">자세히 보기</button>
+      <div style="margin-top:10px;font-size:11px;color:#666">bg: #1A1A1A · 다크 섹션 내 CTA</div>
+    </div>
+    <div class="bc" style="background:#7935F8">
+      <div class="bcl" style="color:rgba(255,255,255,.6)">Ghost Button</div>
+      <button class="btn-ghost">상담 신청하기</button>
+      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,.6)">bg: rgba(255,255,255,0.4) · Hero 슬라이드 내</div>
+    </div>
+    <div class="bc">
+      <div class="bcl">Disabled</div>
+      <button class="btn-disabled" disabled="">비활성 버튼</button>
+      <div style="margin-top:10px;font-size:11px;color:#6C757D">bg: #D0D0D0 · text: #999 · cursor: not-allowed</div>
+    </div>
+  </div>
+  <div class="subtit">버튼 상태 규칙</div>
+  <table class="btn-state-table">
+    <thead><tr><th>상태</th><th>배경</th><th>텍스트</th><th>효과</th></tr></thead>
+    <tbody>
+      <tr><td>Default</td><td>#7935F8</td><td>#FFF</td><td>—</td></tr>
+      <tr><td>Hover</td><td>#6B2FE8 (10% darker)</td><td>#FFF</td><td>box-shadow 추가</td></tr>
+      <tr><td>Active</td><td>#5A28CC (15% darker)</td><td>#FFF</td><td>scale(0.98)</td></tr>
+      <tr><td>Disabled</td><td>#D0D0D0</td><td>#999</td><td>cursor: not-allowed</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 4. CARD -->
+<section class="sec" id="card">
+  <div class="stit"><span class="n">04</span> 카드 컴포넌트</div>
+  <div class="ckg">
+    <div>
+      <div class="subtit" style="margin-bottom:8px">4-1 상품/솔루션 카드 (Hero)</div>
+      <div class="card-product">
+        <div class="cbadge">추천 솔루션</div>
+        <h4>AICC</h4>
+        <p>AI 기반 고객센터 자동화 솔루션</p>
+        <div class="cta">상담 신청하기</div>
+      </div>
+    </div>
+    <div>
+      <div class="subtit" style="margin-bottom:8px">4-2 인사이트 콘텐츠 카드</div>
+      <div class="card-insight">
+        <div>
+          <div class="ci-cat">현직 마케터 리포트</div>
+          <div class="ci-title">ChatGPT 유료 구독,<br>우리 회사는 몇 명에게<br>먼저 도입해야 할까?</div>
+        </div>
+        <div class="ci-img">🤖</div>
+      </div>
+    </div>
+    <div>
+      <div class="subtit" style="margin-bottom:8px">4-3 업종 솔루션 카드</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="card-industry"><h4>유통</h4><p>이커머스·오프라인 유통</p></div>
+        <div class="card-industry inactive"><h4>제조</h4><p>제조·건설·화학</p></div>
+        <div class="card-industry inactive"><h4>의료</h4><p>종합병원·전문병원</p></div>
+        <div class="card-industry inactive"><h4>금융</h4><p>은행·카드·증권</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="subtit" style="margin-bottom:8px">4-4 도입사례 수치 카드</div>
+      <div class="card-stat">
+        <div class="ico">📊</div>
+        <div><div class="num">47%</div><div style="font-size:13px;font-weight:700;margin-bottom:2px">운영 비용 절감</div><div class="desc">AICC 도입 후 고객센터 운영 효율 개선 — ○○물류</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="subtit" style="margin-bottom:8px">4-5 인사이트 목록 카드 (3열)</div>
+      <div class="card-list">
+        <div class="cl-img">📰</div>
+        <div class="cl-body">
+          <div class="cl-title">업무용 승용차 운행기록부 자동 작성 방법 (법인세 절세 핵심 정리)</div>
+          <div class="cl-meta"><span>등록일 2026-04-15</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div>
+<section class="sec" id="layout">
+  <div class="stit"><span class="n">05</span> 레이아웃 시스템</div>
+  <div class="subsec">
+    <div class="subtit">그리드 시스템</div>
+    <div class="grid-demo">
+      <div style="font-size:12px;color:#6C757D;margin-bottom:8px;font-weight:700">최대 컨텐츠 폭: 1200–1280px · 12컬럼 Grid · Gutter: 20–24px</div>
+      <div class="grid-row" style="display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-bottom:8px">
+        <div class="grid-col">1</div><div class="grid-col">2</div><div class="grid-col">3</div><div class="grid-col">4</div><div class="grid-col">5</div><div class="grid-col">6</div><div class="grid-col">7</div><div class="grid-col">8</div><div class="grid-col">9</div><div class="grid-col">10</div><div class="grid-col">11</div><div class="grid-col">12</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px">
+        <div class="grid-col">인사이트 — 3열</div><div class="grid-col">카드</div><div class="grid-col">카드</div>
+      </div>
+      <div style="display:grid;grid-template-columns:8fr 4fr;gap:8px">
+        <div class="grid-col">Hero 좌 (2/3 — 8칸)</div><div class="grid-col">Hero 우 (1/3 — 4칸)</div>
+      </div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">PC 레이아웃 구조 (홈)</div>
+    <div class="layout-demo">
+      <div class="ld-topbar">개인 | 기업 | 소상공인 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 회사소개</div>
+      <div class="ld-gnb">
+        <span class="logo">LG U+</span>
+        <span>상품</span><span>솔루션</span><span>인사이트</span><span>고객지원</span><span>MY</span>
+        <span style="margin-left:auto;font-size:11px">검색 장바구니 내정보</span>
+        <span class="cta">간편 상담 신청</span>
+      </div>
+      <div class="ld-hero">
+        <div class="ld-hero-main"><div style="font-size:10px;opacity:.7;margin-bottom:4px">추천 솔루션</div><div style="font-size:20px;font-weight:800;color:#fff">AICC</div><div style="font-size:10px;opacity:.7;margin-top:8px">상담 신청하기</div></div>
+        <div style="display:grid;grid-template-rows:auto auto;gap:8px">
+          <div class="ld-hero-ins">현직 마케터 리포트 — ChatGPT 유료 구독...</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="ld-hero-press">보도자료</div>
+            <div class="ld-hero-search">검색해 보세요 <span style="background:#7935F8;color:#fff;padding:2px 6px;border-radius:4px;font-size:10px">Q</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ld-section">
+        <h5>전문가의 맞춤 솔루션, 지금 연결해 드립니다.</h5>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px">
+          <div class="ld-card active">유통</div><div class="ld-card">제조</div><div class="ld-card">의료</div><div class="ld-card">플랫폼</div><div class="ld-card">공공</div><div class="ld-card">금융</div><div class="ld-card">교육</div>
+        </div>
+      </div>
+      <div class="ld-footer">footer — 법적고지 · SNS · 패밀리사이트</div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">모바일 레이아웃 구조 (홈)</div>
+    <div class="mo-demo">
+      <div class="mo-topbar">개인 · 기업 · 소상공인</div>
+      <div class="mo-gnb"><span class="logo">LG U+</span><span>검색</span><span>장바구니</span><span>메뉴</span></div>
+      <div class="mo-hero"><div style="font-size:9px;opacity:.7;margin-bottom:2px">추천 솔루션</div><div style="font-size:18px;font-weight:800">AICC</div><div style="font-size:10px;opacity:.8;margin-top:4px">상담 신청하기</div><div class="slides" style="display:flex;gap:4px;margin-top:8px"><div class="slide-dot on"></div><div class="slide-dot"></div><div class="slide-dot"></div></div></div>
+      <div class="mo-scroll"><span class="mo-chip">유통</span><span class="mo-chip gray">제조</span><span class="mo-chip gray">의료</span><span class="mo-chip gray">플랫폼</span><span class="mo-chip gray">공공</span></div>
+      <div class="mo-content"><div class="mo-card-h">현직 마케터 리포트 — ChatGPT 유료 구독...</div><div class="mo-card-h" style="background:#1a1a1a;color:#aaa">보도자료: AI 비서 SaaS형 수출</div></div>
+      <div style="height:12px"></div>
+      <div class="mo-tabbar"><div class="tab on"><span class="ico">🏠</span>홈</div><div class="tab"><span class="ico">📦</span>상품</div><div class="tab"><span class="ico">💡</span>솔루션</div><div class="tab"><span class="ico">📰</span>인사이트</div><div class="tab"><span class="ico">👤</span>MY</div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">상품 상세 앵커 메뉴 (PC: 좌측 사이드바 / MO: 상단 수평 탭)</div>
+    <div class="anchor-demo">
+      <div class="anchor-menu" style="border-right:1px solid var(--bd)">
+        <div class="anchor-item on">상품개요</div><div class="anchor-item">특장점</div><div class="anchor-item">이용요금</div><div class="anchor-item">추천 고객</div><div class="anchor-item">주요기능</div><div class="anchor-item">FAQ</div>
+      </div>
+      <div class="anchor-content">
+        <div style="font-size:12px;color:#6C757D;margin-bottom:8px">기업 &gt; 전체 &gt; AI 컨택센터 &gt; AICC</div>
+        <div style="font-size:24px;font-weight:800;margin-bottom:4px">AICC <span style="color:#7935F8">.</span></div>
+        <div style="font-size:14px;margin-bottom:12px">AI 기반 고객센터 자동화 솔루션으로 상담 효율을 혁신적으로 개선하세요.</div>
+        <div style="font-size:12px;color:#6C757D">MO에서는 이 메뉴가 상단 수평 스크롤 탭으로 전환됩니다.</div>
+      </div>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subtit">Floating 퀵메뉴</div>
+    <div class="float-demo">
+      <div style="font-size:13px;color:#6C757D;padding:10px">페이지 스크롤 중에도 우측 하단에 고정됩니다.</div>
+      <div class="float-menu"><div class="float-btn">간편 상담 신청</div><div class="float-sub">상품소개서 다운로드</div><div class="float-sub">뉴스레터 구독</div></div>
+    </div>
+  </div>
+</section></div><div>
+<section class="sec" id="icon">
+  <div class="stit"><span class="n">06</span> 아이콘 &amp; 일러스트레이션</div>
+  <div class="subsec">
+    <div class="subtit">아이콘 유형</div>
+    <div class="icon-grid">
+      <div class="icon-item"><div class="icon-circle">📶</div><div class="icon-label">기능 아이콘 (특장점)</div></div>
+      <div class="icon-item"><div class="icon-circle">🔍</div><div class="icon-label">검색 (GNB)</div></div>
+      <div class="icon-item"><div class="icon-circle">🛒</div><div class="icon-label">장바구니 (GNB)</div></div>
+      <div class="icon-item"><div class="icon-circle">👤</div><div class="icon-label">내정보 (GNB)</div></div>
+      <div class="icon-item"><div class="icon-circle">☰</div><div class="icon-label">전체메뉴 (GNB)</div></div>
+      <div class="icon-item"><div class="icon-circle">›</div><div class="icon-label">Chevron (슬라이드)</div></div>
+      <div class="icon-item"><div class="icon-circle" style="background:linear-gradient(135deg,#7935F8,#5A28CC);color:#fff;font-size:28px">🤖</div><div class="icon-label">AI 일러스트 (Hero)</div></div>
+      <div class="icon-item"><div class="icon-circle">🏭</div><div class="icon-label">산업 이미지 (솔루션)</div></div>
+      <div class="icon-item"><div class="icon-circle" style="background:#f0f0f0">🏅</div><div class="icon-label">수상/인증 배지</div></div>
+    </div>
+  </div>
+  <div class="subsec" style="margin-top:20px">
+    <div class="subtit">아이콘 스타일 규칙</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+      <div style="background:#F8F9FA;border-radius:8px;padding:14px;font-size:13px"><strong>기능 아이콘</strong><br><span style="color:#6C757D;font-size:12px">단색/2색 SVG · 원형 배경 · 상품 특장점, 서비스 구성도에 사용</span></div>
+      <div style="background:#F8F9FA;border-radius:8px;padding:14px;font-size:13px"><strong>네비게이션 아이콘</strong><br><span style="color:#6C757D;font-size:12px">라인 아이콘 스타일 · GNB(검색, 장바구니, 내정보)</span></div>
+      <div style="background:#F8F9FA;border-radius:8px;padding:14px;font-size:13px"><strong>화살표/Chevron</strong><br><span style="color:#6C757D;font-size:12px">미니멀 라인 · 슬라이드 이전/다음, 아코디언 토글</span></div>
+      <div style="background:#F8F9FA;border-radius:8px;padding:14px;font-size:13px"><strong>AI/Robot 일러스트</strong><br><span style="color:#6C757D;font-size:12px">3D 렌더링 캐릭터 (익시o) · Hero 슬라이드</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="screen">
+  <div class="stit"><span class="n">07</span> 각 화면별 GUI 상세</div>
+  
+  <div class="subsec">
+    <div class="subtit">7-1 홈(메인) 화면 섹션 구성</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">Section 1: Hero Grid</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">좌(2/3): 상품 슬라이드 카드 — Purple 배경, 상품명 대형<br>우상(1/3): 인사이트 카드 — 연보라/흰배경<br>우하좌: 보도자료 카드 — 다크<br>우하우: 검색 블록 — 다크 배경, 보라 버튼</div>
+      </div>
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">Section 2: 업종/유형 솔루션</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">헤딩: 60px Bold<br>필터 탭: 업종(활성)/유형(비활성) — 다크 pill 버튼<br>업종 카드: 선택 보라, 미선택 회색<br>hover 시 Purple 활성화</div>
+      </div>
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">Section 3: 도입사례</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">인용 블록: 수치 강조 (색상/Bold)<br>좌우 화살표 슬라이드<br>회사명 + 수치 + 설명</div>
+      </div>
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">Section 4: 인사이트 퀵링크</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">6개 항목 수평 나열<br>각 항목에 "최신글 보기" 링크<br>블로그/뉴스레터/보도자료/웨비나/고객사례/이벤트</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subtit">7-2 상품 상세 화면 구성</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">Header 영역</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">Breadcrumb — 회색 소형 텍스트<br>상품명 대형 헤딩 + 마침표 애니메이션<br>상품 설명 서브텍스트<br>우측: 북마크/링크복사/장바구니 + CTA 보라 버튼</div>
+      </div>
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">좌측 앵커 메뉴 (PC)</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">세로 사이드바 형태<br>현재 섹션: 보라 텍스트 or 왼쪽 border 강조<br>항목: 상품개요/특장점/이용요금/추천고객/주요기능/FAQ</div>
+      </div>
+      <div style="border:1px solid var(--bd);border-radius:10px;padding:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:8px">본문 영역</div>
+        <div style="font-size:12px;color:#6C757D;line-height:1.7">Hero 배너: 다크(블랙/딥퍼플), 화이트 텍스트<br>특장점 3개 아이콘 카드<br>요금표: 테이블 형식, 헤더 보라<br>FAQ: 아코디언 컴포넌트<br>추천 상품: 카드 3열</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:32px;color:#6C757D;font-size:12px;border-top:1px solid var(--bd);margin-top:20px">
+  LG U+ 기업(Biz) 사이트 GUI 스타일 가이드 · 2026-05-14 · 사이트 개선 프로젝트
+</footer>
+
+<script>
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-90)cur=s.id});
+  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+});
+</script>
+</div></main><div id="dl-bar" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; background: rgb(26, 26, 26); border-radius: 40px; padding: 12px 24px; display: flex; align-items: center; gap: 12px; box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 32px;">
+  <span style="color:#aaa;font-size:13px;font-weight:500;">🎨 GUI 스타일 가이드</span>
+  <button id="dl-gui-btn" style="background:#7935F8;color:#fff;border:none;padding:10px 22px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">
+    ⬇ HTML 다운로드
+  </button>
+</div></body></html>
